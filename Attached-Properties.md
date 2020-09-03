@@ -11,3 +11,11 @@ If you want your control to be draggable outside the NodifyEditor, you must hand
 
 The ```DragBehavior.DraggableHost``` attached property can specify a host control to use when calculating the drag delta. This is useful when the control is inside a panel that uses a custom ```RenderTransform``` or a ```LayoutTransform```.
 If a value is not specified, it will try to find a ```NodifyCanvas``` in the parent hierarchy and if that fails it look for a ```Canvas``` which will fallback to the element itself if not found.
+
+Example XAML:
+```xml
+<nodify:NodifyEditor>
+    <TextBlock Text="Drag me" nodify:DragBehavior.IsDraggable="True" Padding=20 />
+</nodify:NodifyEditor>
+```
+![Drag](https://i.imgur.com/DGPiNjx.gif)
