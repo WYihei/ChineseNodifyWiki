@@ -1,5 +1,5 @@
 # Home
 
-# [Documentation](Home)
+# Documentation
 
  [Attached Properties](Attached-Properties)	
