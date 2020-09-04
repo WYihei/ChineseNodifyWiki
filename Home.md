@@ -1,4 +1,4 @@
-# Welcome to the Nodify!
+# Welcome to Nodify!
 
 Nodify is a WPF control library that offers the base controls needed for a node based editor.
 
