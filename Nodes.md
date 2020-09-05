@@ -45,3 +45,22 @@ This type of node supports both ```Input``` and ```Output``` connectors as seen 
 </details>
 
 ![FlowNode](https://i.imgur.com/VwAYlX3.gif)
+
+### 2. The ```GroupingNode``` control
+
+<details>
+<summary>Example XAML</summary>
+
+```xml
+<nodify:NodifyEditor>
+    <nodify:GroupingNode Header="Grouping node"
+			 Width="300"
+			 Height="250" />
+    <nodify:Node Header="My node" />
+    <nodify:Node Header="My other node" />
+</nodify:NodifyEditor>
+```
+
+</details>
+
+![Grouping Node](https://i.imgur.com/HYxt2cs.gif)
