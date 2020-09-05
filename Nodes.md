@@ -86,3 +86,21 @@ This type of control can be used to reroute ```Connection```s as it supports onl
 </details>
 
 ![Knot Node](https://i.imgur.com/fMrEqY1.gif)
+
+### 4. The ```StateNode``` control
+
+This type of node is a ```Connector``` itself, meaning that it will raise ```PendingConnection``` events on interaction.
+
+<details>
+
+<summary>Example XAML</summary>
+
+```xml
+<nodify:NodifyEditor>
+    <nodify:StateNode Content="My node" />
+</nodify:NodifyEditor>
+```
+
+</details>
+
+![State Node](https://i.imgur.com/FrI2epL.gif)
