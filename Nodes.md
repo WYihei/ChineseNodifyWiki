@@ -3,7 +3,7 @@
 Nodes are the building blocks of a node editor, hence the following nodes are part of the library:
 
 ### 1. The ```Node``` control
-This type of node supports both ```Input``` and ```Output``` connectors as seen in the example below.
+This type of node supports both ```Input``` and ```Output``` connectors and can be moved around.
 
 <details>
 <summary>Example XAML</summary>
@@ -48,6 +48,10 @@ This type of node supports both ```Input``` and ```Output``` connectors as seen 
 
 ### 2. The ```GroupingNode``` control
 
+This type of node can be resized and will will move nodes that are inside it if dragged by the ```Header```.
+
+If the ```SwitchMovementModeModifierKey``` (**Shift** key by default) is held, it will move without moving its children.
+
 <details>
 <summary>Example XAML</summary>
 
@@ -64,3 +68,21 @@ This type of node supports both ```Input``` and ```Output``` connectors as seen 
 </details>
 
 ![Grouping Node](https://i.imgur.com/HYxt2cs.gif)
+
+### 3. The ```KnotNode``` control
+
+This type of control can be used to reroute ```Connection```s as it supports only one ```Connector```.
+
+<details>
+
+<summary>Example XAML</summary>
+
+```xml
+<nodify:NodifyEditor>
+	<nodify:KnotNode />
+</nodify:NodifyEditor>
+```
+
+</details>
+
+![Knot Node](https://i.imgur.com/fMrEqY1.gif)
