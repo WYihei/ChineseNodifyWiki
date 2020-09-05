@@ -11,6 +11,7 @@
   - [Node](Node)
   - [GroupingNode](Grouping-Node)
   - [KnotNode](Knot-Node)
+  - [StateNode](State-Node)
 
   [Connections](Connections)
   - [BaseConnection](Base-Connection)
