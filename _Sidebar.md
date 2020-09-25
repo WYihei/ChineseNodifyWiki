@@ -1,8 +1,6 @@
 # [Home](Home)
 # Documentation
 
-  [Drag Controls](Drag-Controls)
-
   [NodifyEditor](Nodify-Editor)
   - [ItemContainer](Item-Container)	
   - [Tools](Editor-Tools)
