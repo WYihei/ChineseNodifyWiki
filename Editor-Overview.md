@@ -1,4 +1,4 @@
-# Editor overview
+# Overview
 
 ### Table of contents
 * [Moving the viewport](#panning)
