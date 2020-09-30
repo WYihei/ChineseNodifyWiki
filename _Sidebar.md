@@ -2,8 +2,7 @@
 # Documentation
 
   [NodifyEditor](Nodify-Editor)
-  - [ItemContainer](Item-Container)	
-  - [Tools](Editor-Tools)
+  - [Navigating the editor](Nodify-Editor-Navigation)
 
   [Nodes](Nodes)
   - [Node](Node)
