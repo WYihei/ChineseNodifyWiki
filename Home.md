@@ -34,3 +34,16 @@ Use the following XAML:
 If you see this, then we're good to go:
 
 ![Result](https://i.imgur.com/SAbOxhY.png)
+
+# Documentation
+
+### Table of contents
+- [Editor overview](Editor-Overview)
+- [ItemContainer overview](ItemContainer-Overview)
+- [Nodes overview](Nodes-Overview)
+- [Connections overview](Connections-Overview)
+- [Connectors overview](Connectors-Overview)
+
+### Application examples
+- [Playground](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.Playground)
+- [State machine](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.StateMachine)
