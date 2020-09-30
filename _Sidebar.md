@@ -1,5 +1,4 @@
-# [Home](Home)
-# Documentation
+## [Home](Home)
 
 [Editor overview](Editor-Overview)
 - [Moving the viewport](https://github.com/miroiu/nodify/wiki/Nodify-Editor-Overview#panning)
