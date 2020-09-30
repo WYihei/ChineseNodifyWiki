@@ -1,7 +1,7 @@
 # [Home](Home)
 # Documentation
 
-[Editor overview](Nodify-Editor-Overview)
+[Editor overview](Editor-Overview)
 - [Moving the viewport](https://github.com/miroiu/nodify/wiki/Nodify-Editor-Overview#panning)
 - [Zooming](https://github.com/miroiu/nodify/wiki/Nodify-Editor-Overview#zooming)
 - [Selecting items](https://github.com/miroiu/nodify/wiki/Nodify-Editor-Overview#zooming)
