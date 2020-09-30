@@ -8,6 +8,8 @@
 - [Snapping to grid](https://github.com/miroiu/nodify/wiki/Nodify-Editor-Overview#snapping)
 - [Commands](https://github.com/miroiu/nodify/wiki/Nodify-Editor-Overview#commands)
 
+[ItemContainer overview](ItemContainer-Overview)
+
 [Nodes overview](Nodes-Overview)
 - [The node](https://github.com/miroiu/nodify/wiki/Nodes-Overview#1-the-node-control)
 - [The grouping node](https://github.com/miroiu/nodify/wiki/Nodes-Overview#2-the-groupingnode-control)
@@ -16,4 +18,4 @@
 
 [Connections overview](Connections-Overview)
 
-[Connectors](Connectors-Overview)
+[Connectors overview](Connectors-Overview)
