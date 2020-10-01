@@ -1,6 +1,6 @@
 # Overview
 
-### Table of contents
+## Table of contents
 * [Moving the viewport](#panning)
 * [Zooming](#zooming)
 * [Selecting items](#selecting)
