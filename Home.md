@@ -31,6 +31,18 @@ Use the following XAML:
     <nodify:KnotNode nodify:ItemContainer.LocationOverride="400 100" />
 </nodify:NodifyEditor>
 ```
+
+Merge one of the following dictionaries in your application's resources to change the theme:
+
+```Dark``` theme (default if not specified):
+```xml
+<ResourceDictionary Source="pack://application:,,,/Nodify;component/Themes/Dark.xaml" />
+```
+```Light``` theme:
+```xml
+<ResourceDictionary Source="pack://application:,,,/Nodify;component/Themes/Light.xaml" />
+```
+
 If you see this, then we're good to go:
 
 ![Result](https://i.imgur.com/SAbOxhY.png)
