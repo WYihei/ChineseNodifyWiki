@@ -14,6 +14,18 @@ Nodify is a WPF control library that offers the base controls needed for a node 
 Install-Package Nodify
 ```
 
+### Table of contents
+- [Editor overview](Editor-Overview)
+- [ItemContainer overview](ItemContainer-Overview)
+- [Nodes overview](Nodes-Overview)
+- [Connections overview](Connections-Overview)
+- [Connectors overview](Connectors-Overview)
+
+### Application examples
+- [Playground](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.Playground)
+- [State machine](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.StateMachine)
+- [Calculator](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.Calculator)
+
 ### Quick start
 Declare the namespace: ```xmlns:nodify="http://miroiu.github.io/winfx/xaml/nodify"```
 
@@ -47,16 +59,44 @@ If you see this, then we're good to go:
 
 ![Result](https://i.imgur.com/SAbOxhY.png)
 
-# Documentation
-
-### Table of contents
-- [Editor overview](Editor-Overview)
-- [ItemContainer overview](ItemContainer-Overview)
-- [Nodes overview](Nodes-Overview)
-- [Connections overview](Connections-Overview)
-- [Connectors overview](Connectors-Overview)
-
-### Application examples
-- [Playground](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.Playground)
-- [State machine](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.StateMachine)
-- [Calculator](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.Calculator)
+## Common XAML structure for MVVM:
+```xml
+<nodify:NodifyEditor ItemsSource="{Binding Nodes}"
+                     Connections="{Binding Connections}"
+                     ConnectionCompletedCommand="{Binding ConnectionCompletedCommand}">
+    <nodify:NodifyEditor.ItemTemplate>
+        <DataTemplate>
+            <nodify:Node Header="{Binding Title}"
+                         Input="{Binding Input}"
+                         Output="{Binding Output}">
+                <nodify:Node.InputConnectorTemplate>
+                    <DataTemplate>
+                        <nodify:NodeInput Header="{Binding Title}"
+                                          Anchor="{Binding Anchor, Mode=OneWayToSource}"
+                                          IsConnected="{Binding IsConnected}" />
+                    </DataTemplate>
+                </nodify:Node.InputConnectorTemplate>
+                <nodify:Node.OutputConnectorTemplate>
+                    <DataTemplate>
+                        <nodify:NodeOutput Header="{Binding Title}"
+                                           Anchor="{Binding Anchor, Mode=OneWayToSource}"
+                                           IsConnected="{Binding IsConnected}" />
+                    </DataTemplate>
+                </nodify:Node.OutputConnectorTemplate>
+            </nodify:Node>
+        </DataTemplate>
+    </nodify:NodifyEditor.ItemTemplate>
+    <nodify:NodifyEditor.ConnectionTemplate>
+        <DataTemplate>
+            <nodify:Connection Source="{Binding Input.Anchor}"
+                               Target="{Binding Output.Anchor}" />
+        </DataTemplate>
+    </nodify:NodifyEditor.ConnectionTemplate>
+    <nodify:NodifyEditor.ItemContainerStyle>
+        <Style TargetType="{x:Type nodify:ItemContainer}">
+            <Setter Property="Location"
+                    Value="{Binding Location}" />
+        </Style>
+    </nodify:NodifyEditor.ItemContainerStyle>
+</nodify:NodifyEditor>
+```
