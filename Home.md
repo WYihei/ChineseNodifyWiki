@@ -59,3 +59,4 @@ If you see this, then we're good to go:
 ### Application examples
 - [Playground](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.Playground)
 - [State machine](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.StateMachine)
+- [Calculator](https://github.com/miroiu/nodify/tree/master/Examples/Nodify.Calculator)
