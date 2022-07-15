@@ -20,3 +20,5 @@
 [Connections overview](Connections-Overview)
 
 [Connectors overview](Connectors-Overview)
+
+[(FAQ) Frequently asked questions](FAQ)
