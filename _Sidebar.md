@@ -3,6 +3,9 @@
 [Getting Started](Getting-Started)
 - [Hierarchy and terminology](Getting-Started#hierarchy-and-terminology)
 - [Content layers](Getting-Started#content-layers)
+- [Creating an editor](Getting-Started#creating-an-editor)
+- [Using a theme](Getting-Started#using-an-existing-theme)
+- [Drawing a grid](Getting-Started#drawing-a-grid)
 
 [Editor overview](Editor-Overview)
 - [Moving the viewport](Editor-Overview#panning)
