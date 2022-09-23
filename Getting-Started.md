@@ -1,6 +1,4 @@
-# Components Overview
-
-It is _important_ to know how components are named and what's their role in the visual tree of the editor in order to understand the code and the documentation.
+It is _important_ to understand how components are named and what's their role in the visual tree of the editor in order to understand the code and the documentation.
 
 ## Hierarchy and terminology
 
