@@ -31,7 +31,7 @@ Import the `nodify` namespace: `xmlns:nodify="https://miroiu.github.io/nodify"` 
 
 Merge one of the following themes into your resource dictionary in `App.xaml`:
 
-- Dark theme:
+- Dark theme (default theme if not specified):
 ```xml
 <ResourceDictionary Source="pack://application:,,,/Nodify;component/Themes/Dark.xaml" />
 ```
