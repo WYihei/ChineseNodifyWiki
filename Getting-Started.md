@@ -13,9 +13,9 @@ _A picture is worth a thousand words_
 ![nodes-hierarchy](https://user-images.githubusercontent.com/12727904/192028123-e2847f29-6517-4731-8672-f5d8356dead0.png)
 
 
-## Items and Connections Layers
+## Content Layers
 
-You may wonder how a node can be a connector itself and and still behave like a normal node. The editor contains three big layers which help solve this problem:
+You may wonder how a node can be a connector itself and still behave like a normal node. The editor contains three big layers which help solve this problem:
 
 1. The items layer (`NodifyEditor.ItemsSource`) - here, each control is wrapped inside an [Item Container](ItemContainer-Overview) making it selectable, draggable, etc and it is possible to have any control rendered (e.g a connector, a text block).
 2. The connections layer (`NodifyEditor.Connections`) - this is where all the [connections](Connections-Overview) coexist and are rendered behind the items layer by default
