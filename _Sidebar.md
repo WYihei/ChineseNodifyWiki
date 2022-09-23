@@ -1,10 +1,8 @@
 ## [Home](Home)
 
 [Getting Started](Getting-Started)
-- [Moving the viewport](Editor-Overview#panning)
-- [Zooming](Editor-Overview#zooming)
-- [Selecting items](Editor-Overview#selecting)
-- [Snapping to grid](Editor-Overview#snapping)
+- [Hierarchy and terminology](Getting-Started#hierarchy-and-terminology)
+- [Content layers](Getting-Started#content-layers)
 
 [Editor overview](Editor-Overview)
 - [Moving the viewport](https://github.com/miroiu/nodify/wiki/Editor-Overview#panning)
