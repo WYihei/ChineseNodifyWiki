@@ -1,8 +1,10 @@
-# Welcome to Nodify!
-[![API](https://img.shields.io/static/v1?label=%20&message=API%20Reference&color=yellow&style=for-the-badge)](https://miroiu.github.io/nodify/docs/api/Alignment)
-[![Docs](https://img.shields.io/static/v1?label=%20&message=Docs&color=yellow&style=for-the-badge)](https://miroiu.github.io/nodify/docs/)
 
-Nodify is a WPF control library that offers the base controls needed for a node-based editor.
+![editor-interaction](https://user-images.githubusercontent.com/12727904/192004838-ec6dd997-5e64-4c01-940c-1cd1b8d27837.gif)
+
+
+# Welcome to Nodify!
+
+Nodify is a WPF node-based [editor control](../Editor-Overview) featuring a collection of useful components like [nodes](../Nodes-Overview), [connections](../Connections-Overview), and [connectors](../Connectors-Overview) aiming to simplify the process of building node based tools.
 
 ### Requirements
 ![IDE](https://img.shields.io/static/v1?label=%20&message=VS%202019&color=informational&style=for-the-badge&logo=visual-studio)
