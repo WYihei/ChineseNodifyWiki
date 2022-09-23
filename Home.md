@@ -4,7 +4,7 @@
 
 # Welcome to Nodify!
 
-Nodify is a WPF node-based [editor control](../Editor-Overview) featuring a collection of useful components like [nodes](../Nodes-Overview), [connections](../Connections-Overview), and [connectors](../Connectors-Overview) aiming to simplify the process of building node based tools.
+Nodify is a WPF node-based [editor control](Editor-Overview) featuring a collection of useful components like [nodes](Nodes-Overview), [connections](Connections-Overview), and [connectors](Connectors-Overview) aiming to simplify the process of building node based tools.
 
 ### Requirements
 ![IDE](https://img.shields.io/static/v1?label=%20&message=VS%202019&color=informational&style=for-the-badge&logo=visual-studio)
