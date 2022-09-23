@@ -5,7 +5,7 @@
 [Editor overview](Editor-Overview)
 - [Moving the viewport](https://github.com/miroiu/nodify/wiki/Editor-Overview#panning)
 - [Zooming](https://github.com/miroiu/nodify/wiki/Editor-Overview#zooming)
-- [Selecting items](https://github.com/miroiu/nodify/wiki/Editor-Overview#zooming)
+- [Selecting items](https://github.com/miroiu/nodify/wiki/Editor-Overview#selecting)
 - [Snapping to grid](https://github.com/miroiu/nodify/wiki/Editor-Overview#snapping)
 - [Commands](https://github.com/miroiu/nodify/wiki/Editor-Overview#commands)
 
