@@ -98,3 +98,5 @@ Use the `ViewportTransform` dependency property to have the grid move with the v
     </Grid>
 </Window>
 ```
+
+> Tip: Right-click and drag the screen around to move the view and use the mouse wheel to zoom in and out.
