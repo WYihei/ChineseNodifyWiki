@@ -1,5 +1,7 @@
 ## [Home](Home)
 
+[Getting Started](Getting-Started)
+
 [Editor overview](Editor-Overview)
 - [Moving the viewport](https://github.com/miroiu/nodify/wiki/Editor-Overview#panning)
 - [Zooming](https://github.com/miroiu/nodify/wiki/Editor-Overview#zooming)
