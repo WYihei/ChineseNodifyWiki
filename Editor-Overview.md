@@ -1,5 +1,3 @@
-# Overview
-
 ## Table of contents
 * [Moving the viewport](#panning)
 * [Zooming](#zooming)
