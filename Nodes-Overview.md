@@ -1,48 +1,68 @@
-# Overview
+Nodes are the building blocks of a node editor. They are wrapped in [`ItemContainer`s](ItemContainer-Overview) and can be any custom control. (e.g. a TextBlock)
 
-Nodes are the building blocks of a node editor, hence the following nodes are part of the library:
+The following nodes are part of the library:
 
 ### 1. The ```Node``` control
 This type of node supports both ```Input``` and ```Output``` connectors and can be moved around.
 
 <details>
-<summary>Example XAML</summary>
+<summary>Example XAML and viewmodels</summary>
+
+```csharp
+public class ConnectorViewModel
+{
+    public string Title { get; set; }
+}
+
+public class NodeViewModel
+{
+    public string Title { get; set; }
+
+    public List<ConnectorViewModel> Input { get; set; } = new List<ConnectorViewModel>();
+    public List<ConnectorViewModel> Output { get; set; } = new List<ConnectorViewModel>();
+}
+```
 
 ```xml
 <nodify:NodifyEditor>
-    <nodify:NodifyEditor.Resources>
-	<local:FlowNodeViewModel x:Key="NodeContext"
-		                 Title="My Node">
-	    <local:FlowNodeViewModel.Input>
-	        <local:ConnectorViewModel Title="In 0" />
-	   	<local:ConnectorViewModel Title="In 1" />
-	    </local:FlowNodeViewModel.Input>
-	    <local:FlowNodeViewModel.Output>
-		    <local:ConnectorViewModel Title="Out 0" />
-	    	    <local:ConnectorViewModel Title="Out 1" />
-	    </local:FlowNodeViewModel.Output>
-	</local:FlowNodeViewModel>
-    </nodify:NodifyEditor.Resources>
-
-    <nodify:Node DataContext="{StaticResource NodeContext}"
-		 Header="{Binding Title}"
-		 Input="{Binding Input}"
-		 Output="{Binding Output}">
-	<nodify:Node.InputConnectorTemplate>
-	    <DataTemplate>
-	 	<nodify:NodeInput Header="{Binding Title}" />
-	    </DataTemplate>
-	</nodify:Node.InputConnectorTemplate>
-	<nodify:Node.OutputConnectorTemplate>
-	    <DataTemplate>
-	        <nodify:NodeOutput Header="{Binding Title}" />
-	    </DataTemplate>
-	</nodify:Node.OutputConnectorTemplate>
-    </nodify:Node>
+  <nodify:NodifyEditor.Resources>
+      <local:NodeViewModel x:Key="NodeContext" Title="My Node">
+          <local:NodeViewModel.Input>
+              <local:ConnectorViewModel Title="In 0" />
+              <local:ConnectorViewModel Title="In 1" />
+          </local:NodeViewModel.Input>
+          <local:NodeViewModel.Output>
+              <local:ConnectorViewModel Title="Out 0" />
+              <local:ConnectorViewModel Title="Out 1" />
+          </local:NodeViewModel.Output>
+      </local:NodeViewModel>
+  </nodify:NodifyEditor.Resources>
+  <nodify:NodifyEditor.ItemsSource>
+      <CompositeCollection>
+          <nodify:Node DataContext="{StaticResource NodeContext}"
+                    Header="{Binding Title}"
+                    Input="{Binding Input}"
+                    Output="{Binding Output}">
+              <nodify:Node.InputConnectorTemplate>
+                  <DataTemplate>
+                      <nodify:NodeInput Header="{Binding Title}" />
+                  </DataTemplate>
+              </nodify:Node.InputConnectorTemplate>
+              <nodify:Node.OutputConnectorTemplate>
+                  <DataTemplate>
+                      <nodify:NodeOutput Header="{Binding Title}" />
+                  </DataTemplate>
+              </nodify:Node.OutputConnectorTemplate>
+          </nodify:Node>
+      </CompositeCollection>
+  </nodify:NodifyEditor.ItemsSource>
 </nodify:NodifyEditor>
 ```
 
 </details>
+
+The `Header` of the node can be customized using the `HeaderTemplate`. Respectively, the `Footer` of the node can be customized using the `FooterTemplate`.
+Each item in the `Input` collection can be customized using the `InputConnectorTemplate`. Respectively the `Output` can be customized using the `OutputConnectorTemplate`.
 
 ![FlowNode](https://i.imgur.com/VwAYlX3.gif)
 
