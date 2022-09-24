@@ -1,4 +1,3 @@
-# Frequently asked questions
 
 #### Q: Why is the connection not following the connectors when I move a node?
 
