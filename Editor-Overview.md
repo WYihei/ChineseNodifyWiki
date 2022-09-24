@@ -60,6 +60,14 @@ Selecting items can also be used in combination with panning and zooming.
 Default values:
 * ```EnableRealtimeSelection```: true
 
+### Selection API:
+
+The following methods can be called on a NodifyEditor instance.
+
+* SelectArea
+* InvertSelection
+* UnselectArea
+
 ## Snapping
 
 When a selection is moved the ```GridCellSize``` dependency property will be used to determine where to snap the selected items.
@@ -81,4 +89,12 @@ The following ```RoutedUICommand```s are found in the ```EditorCommands``` class
 * ```Align``` - Aligns the selected items using the specified alignment method, defaults to Top. (```CommandParameter``` is of type ```Alignment``` or ```string```. Possible alignment: Top, Left, Bottom, Right, Middle, Center)
 * ```FitToScreen``` - Scales and moves the `Viewport` to display as many items as possible
  
-> Note: You can call the corresponding methods to these commands on an instance of a `NodifyEditor`. 
+## API
+
+You can programmatically call the corresponding methods of these commands on an instance of a `NodifyEditor`. 
+
+* FitToScreen
+* BringIntoView
+* ZoomAtPosition
+* ZoomIn
+* ZoomOut
