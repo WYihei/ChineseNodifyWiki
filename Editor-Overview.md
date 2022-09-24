@@ -2,8 +2,10 @@
 * [Moving the viewport](#panning)
 * [Zooming](#zooming)
 * [Selecting items](#selecting)
+  * [Selection API](#selection-api)
 * [Snapping to grid](#snapping)
 * [Commands](#commands)
+* [Editor API](#editor-api)
 
 ## Panning
 
