@@ -56,4 +56,18 @@ A bezier curve between `Source` and `Target`.
 
 ## Pending Connection
 
-Canceling a pending connection is done by releasing the right mouse button.
+A pending connection can be created from a connector and can be dropped on either an `ItemContainer` (if `AllowOnlyConnectors` is false) or a `Connector`.
+
+`Content` of a pending connection can be customized using the `ContentTemplate`. If `EnablePreview` is true, the `PreviewTarget` will be updated with the connector or item container under the mouse cursor or `null` if there's no such element.
+
+![image](https://user-images.githubusercontent.com/12727904/192115698-fbe29101-884f-4cec-9c25-e318701d30b1.png)
+
+The visibility of pending connections can be controlled using the `IsVisible` dependency property.
+
+Connection snapping to connectors can be enabled using the `EnableSnapping` dependency property.
+
+The `Source` and the `Target` properties are data contexts of connectors and the `Target` will be updated when the pending connection is completed.
+
+There's also a `StartedCommand` which takes the `Source` as the parameter, respectively a `CompletedCommand` which takes the `Target` as the parameter.
+
+> Tip: Canceling a pending connection is done by releasing the right mouse button.
