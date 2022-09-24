@@ -2,6 +2,7 @@ The ```ItemContainer``` is the **most important** piece of an editor. It is a co
 
 ## Table of contents
  - [Selecting](#selecting)
+   - [API](#selection-api)
  - [Moving](#moving-and-dragging)
 
 ## Selecting
@@ -28,6 +29,10 @@ If the default style is not overridden, the container's border will use the ```S
 Default values:
 - ```IsSelectable```: true
 - ```IsSelected```: false
+
+### Selection API
+
+* IsSelectableInArea
 
 ## Moving and dragging
 
