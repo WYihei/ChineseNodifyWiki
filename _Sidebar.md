@@ -25,6 +25,7 @@
 - [The state node](Nodes-Overview#4-the-statenode-control)
 
 [Connections overview](Connections-Overview)
+- [Base connection](Connections-Overview#base-connection)
 - [Pending connection](Connections-Overview#pending-connection)
 
 [Connectors overview](Connectors-Overview)
