@@ -1,0 +1,3 @@
+The connector creates a pending connection by raising the `PendingConnectionStartedEvent` event. Connectors have an `Anchor` dependency property that **must** be bound in order to be able to create connections between them that are updated in real-time when the node's position changes. The `IsConnected` dependency property **must** be set to true in order to receive `Anchor` updates.
+
+ALT+Click on a connector fires the `DisconnectCommand`.
