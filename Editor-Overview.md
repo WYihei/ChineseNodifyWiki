@@ -89,7 +89,7 @@ The following ```RoutedUICommand```s are found in the ```EditorCommands``` class
 * ```Align``` - Aligns the selected items using the specified alignment method, defaults to Top. (```CommandParameter``` is of type ```Alignment``` or ```string```. Possible alignment: Top, Left, Bottom, Right, Middle, Center)
 * ```FitToScreen``` - Scales and moves the `Viewport` to display as many items as possible
  
-## API
+## Editor API
 
 You can programmatically call the corresponding methods of these commands on an instance of a `NodifyEditor`. 
 
