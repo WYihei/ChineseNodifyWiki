@@ -5,6 +5,7 @@
 - [Content layers](Getting-Started#content-layers)
 - [Creating an editor](Getting-Started#creating-an-editor)
 - [Using a theme](Getting-Started#using-an-existing-theme)
+- [Minimal example](Getting-Started#a-minimal-example)
 - [Drawing a grid](Getting-Started#drawing-a-grid)
 
 [Editor overview](Editor-Overview)
