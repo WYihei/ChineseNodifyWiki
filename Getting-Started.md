@@ -156,7 +156,7 @@ The `Node` control supports `Input` and `Output` connectors and the way you cust
 
 Clicking and dragging a wire from the `Input` or `Output` connector will create a [pending connection](Connections-Overview#pending-connection) that we can transform into a real connection.
 
-Let's create the ViewModel for the connection.
+**The most complicated part of Nodify is how you bind the connections to their connectors.** Let's create the ViewModel for the connection and add a list of connections in the `EditorViewModel`.
 
 ```csharp
 public class ConnectionViewModel
@@ -164,7 +164,119 @@ public class ConnectionViewModel
     public ConnectorViewModel Source { get; set; }
     public ConnectorViewModel Target { get; set; }
 }
+
+public class EditorViewModel
+{
+    public ObservableCollection<NodeViewModel> Nodes { get; } = new ObservableCollection<NodeViewModel>();
+    public ObservableCollection<ConnectionViewModel> Connections { get; } = new ObservableCollection<ConnectionViewModel>();
+
+    public EditorViewModel()
+    {
+        var welcome = new NodeViewModel
+        {
+            Title = "Welcome",
+            Input = new ObservableCollection<ConnectorViewModel>
+            {
+                new ConnectorViewModel
+                {
+                    Title = "In"
+                }
+            },
+            Output = new ObservableCollection<ConnectorViewModel>
+            {
+                new ConnectorViewModel
+                {
+                    Title = "Out"
+                }
+            }
+        };
+
+        var nodify = new NodeViewModel
+        {
+            Title = "To Nodify",
+            Input = new ObservableCollection<ConnectorViewModel>
+            {
+                new ConnectorViewModel
+                {
+                    Title = "In"
+                }
+            }
+        };
+
+        Nodes.Add(welcome);
+        Nodes.Add(nodify);
+
+        Connections.Add(new ConnectionViewModel
+        {
+            Source = welcome.Output[0],
+            Target = nodify.Input[0]
+        });
+    }
+}
 ```
+
+Then update the `ConnectorViewModel` to have an `Anchor` point that the connection can attach to. (This needs to be reactive, so we're gonna implement INotifyPropertyChanged in the view model).
+
+```csharp
+public class ConnectorViewModel : INotifyPropertyChanged
+{
+    private Point _anchor;
+    public Point Anchor
+    {
+        set
+        {
+            _anchor = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Anchor)));
+        }
+        get => _anchor;
+    }
+
+    public string Title { get; set; }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+}
+```
+
+Bind the `Anchor` to the connector's view as `Mode=OneWayToSource`. And also set the `IsConnected` to `True` to receive `Anchor` updates.
+
+```xml
+<nodify:Node.InputConnectorTemplate>
+    <DataTemplate DataType="{x:Type local:ConnectorViewModel}">
+        <nodify:NodeInput Header="{Binding Title}"
+                          IsConnected="True"
+                          Anchor="{Binding Anchor, Mode=OneWayToSource}" />
+    </DataTemplate>
+</nodify:Node.InputConnectorTemplate>
+
+<nodify:Node.OutputConnectorTemplate>
+    <DataTemplate DataType="{x:Type local:ConnectorViewModel}">
+        <nodify:NodeOutput Header="{Binding Title}"
+                           IsConnected="True"
+                           Anchor="{Binding Anchor, Mode=OneWayToSource}"  />
+    </DataTemplate>
+</nodify:Node.OutputConnectorTemplate>
+```
+
+And bind the connections to the view.
+
+```xml
+<nodify:NodifyEditor ItemsSource="{Binding Nodes}"
+                     Connections="{Binding Connections}">
+    ...
+    <nodify:NodifyEditor.ConnectionTemplate>
+        <DataTemplate DataType="{x:Type local:ConnectionViewModel}">
+            <nodify:LineConnection Source="{Binding Source.Anchor}"
+                                   Target="{Binding Target.Anchor}" />
+        </DataTemplate>
+    </nodify:NodifyEditor.ConnectionTemplate>
+    ...
+```
+
+Notice how we used the `ConnectionTemplate` to customize the [connection](Connections-Overview).
+
+If you start the application now, you'll see that there is a connection and if you drag the nodes around, it will follow them.
+
+Now let's add the `IsConnected` property to the `ConnectorViewModel` so we can set it whenever it is truly connected or not.
 
 ## Drawing a grid
 
