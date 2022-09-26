@@ -132,7 +132,7 @@ public class EditorViewModel
 }
 ```
 
-And bind them to the view.
+And bind them to the view. (We used the built-in `NodeInput` and `NodeOutput` for the view, but there are [other connectors](Connectors-Overview) too. Or you can create your own, depending on your needs.)
 
 ```xml
 <nodify:Node Header="{Binding Title}"
@@ -217,6 +217,8 @@ public class EditorViewModel
 
 Then update the `ConnectorViewModel` to have an `Anchor` point that the connection can attach to. (This needs to be reactive, so we're gonna implement INotifyPropertyChanged in the view model).
 
+> Note: The `Point` type must be from System.Windows.
+
 ```csharp
 public class ConnectorViewModel : INotifyPropertyChanged
 {
@@ -257,7 +259,7 @@ Bind the `Anchor` to the connector's view as `Mode=OneWayToSource`. And also set
 </nodify:Node.OutputConnectorTemplate>
 ```
 
-And bind the connections to the view.
+And bind the connections to the view and let them use our `ConnectorViewModel`'s `Anchor` in the `ConnectionTemplate`. For more customization, please refer to [connections overview](Connections-Overview).
 
 ```xml
 <nodify:NodifyEditor ItemsSource="{Binding Nodes}"
@@ -272,11 +274,127 @@ And bind the connections to the view.
     ...
 ```
 
-Notice how we used the `ConnectionTemplate` to customize the [connection](Connections-Overview).
-
 If you start the application now, you'll see that there is a connection and if you drag the nodes around, it will follow them.
 
-Now let's add the `IsConnected` property to the `ConnectorViewModel` so we can set it whenever it is truly connected or not.
+Now let's add the `IsConnected` property to the `ConnectorViewModel` so we can set it whenever it is truly connected or not. And update the `ConnectionViewModel` to connect them automatically on construction.
+
+```csharp
+public class ConnectorViewModel : INotifyPropertyChanged
+{
+    private Point _anchor;
+    public Point Anchor
+    {
+        set
+        {
+            _anchor = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Anchor)));
+        }
+        get => _anchor;
+    }
+
+    private bool _isConnected;
+    public bool IsConnected
+    {
+        set
+        {
+            _isConnected = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsConnected)));
+        }
+        get => _isConnected;
+    }
+
+    public string Title { get; set; }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+}
+
+public class ConnectionViewModel
+{
+    public ConnectionViewModel(ConnectorViewModel source, ConnectorViewModel target)
+    {
+        Source = source;
+        Target = target;
+
+        Source.IsConnected = true;
+        Target.IsConnected = true;
+    }
+
+    public ConnectorViewModel Source { get; }
+    public ConnectorViewModel Target { get; }
+}
+```
+
+And don't forget to bind it in the connector template.
+
+```xml
+IsConnected="{Binding IsConnected}"
+```
+
+### Materializing pending connections
+
+The [PendingConnection](Connections-Overview#pending-connection) starts from a `Source` and will be completed when dropped on a `Target`. The source is *always* a connector, and the target can be a [Connector](Connectors-Overview), an [ItemContainer](ItemContainer-Overview) or `null` otherwise. We will only care about other connectors for now. When the connection starts, the `StartedCommand` is executed which receives the `Source` as the parameter. When the connection completes, the CompletedCommand is executed which receives the `Target` as the parameter.
+
+Let's implement the pending connection view model and add it to the `EditorViewModel`.
+
+```csharp
+public class PendingConnectionViewModel
+{
+    private readonly EditorViewModel _editor;
+    private ConnectorViewModel _source;
+
+    public PendingConnectionViewModel(EditorViewModel editor)
+    {
+        _editor = editor;
+        StartCommand = new DelegateCommand<ConnectorViewModel>(source => _source = source);
+        FinishCommand = new DelegateCommand<ConnectorViewModel>(target =>
+        {
+            if (target != null)
+                _editor.Connect(_source, target);
+        });
+    }
+
+    public ICommand StartCommand { get; }
+    public ICommand FinishCommand { get; }
+}
+
+public class EditorViewModel
+{
+    public PendingConnectionViewModel PendingConnection { get; }
+
+    ...
+
+    public EditorViewModel()
+    {
+        PendingConnection = new PendingConnectionViewModel(this);
+        ...
+    }
+
+    ...
+
+    public void Connect(ConnectorViewModel source, ConnectorViewModel target)
+    {
+        Connections.Add(new ConnectionViewModel(source, target));
+    }
+}
+```
+
+And bind it to the view.
+
+```xml
+<nodify:NodifyEditor PendingConnection="{Binding PendingConnection}">
+...
+    <nodify:NodifyEditor.PendingConnectionTemplate>
+        <DataTemplate DataType="{x:Type local:PendingConnectionViewModel}">
+            <nodify:PendingConnection StartedCommand="{Binding StartCommand}"
+                                      CompletedCommand="{Binding FinishCommand}"
+                                      AllowOnlyConnectors="True" />
+        </DataTemplate>
+    </nodify:NodifyEditor.PendingConnectionTemplate>
+...
+</nodify:NodifyEditor>
+```
+
+That's all. You should be able to create connections between connectors now.
 
 ## Drawing a grid
 
