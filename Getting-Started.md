@@ -396,6 +396,44 @@ And bind it to the view.
 
 That's all. You should be able to create connections between connectors now.
 
+### Removing connections
+
+To remove connections you just have to listen for a disconnect event from the connector itself or from the editor and remove the connection that has the connector as the source or target. To keep it simple, we're gonna implement the `DisconnectConnectorCommand` for the `NodifyEditor`. Let's add it to the `EditorViewModel` first.
+
+```csharp
+public class EditorViewModel
+{
+    public ICommand DisconnectConnectorCommand { get; }
+
+    ...
+
+    public EditorViewModel()
+    {
+        DisconnectConnectorCommand = new DelegateCommand<ConnectorViewModel>(connector =>
+        {
+            var connection = Connections.First(x => x.Source == connector || x.Target == connector);
+            connection.Source.IsConnected = false;  // This is not correct if there are multiple connections to the same connector
+            connection.Target.IsConnected = false;
+            Connections.Remove(connection);
+        });
+
+        ...
+    }
+}
+```
+
+Now we have to bind the command to the editor view.
+
+```xml
+<nodify:NodifyEditor ItemsSource="{Binding Nodes}"
+                     Connections="{Binding Connections}"
+                     PendingConnection="{Binding PendingConnection}"
+                     DisconnectConnectorCommand="{Binding DisconnectConnectorCommand}">
+  ...
+  
+</nodify:NodifyEditor>
+```
+
 ### Controlling node location
 
 As you can see, the nodes are always in the top left corner of the screen. That's because they are at location (0, 0) inside the graph. Let's change that!
