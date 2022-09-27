@@ -396,6 +396,55 @@ And bind it to the view.
 
 That's all. You should be able to create connections between connectors now.
 
+### Controlling node location
+
+As you can see, the nodes are always in the top left corner of the screen. That's because they are at location (0, 0) inside the graph. Let's change that!
+
+Add a `Location` property of type `System.Windows.Point` in the `NodeViewModel` that raises PropertyChanged events.
+
+```csharp
+public class NodeViewModel : INotifyPropertyChanged
+{
+    private Point _location;
+    public Point Location
+    {
+        set
+        {
+            _location = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Location)));
+        }
+        get => _location;
+    }
+
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    ...
+}
+```
+
+And bind it to the view.
+
+```xml
+<nodify:NodifyEditor ItemsSource="{Binding Nodes}"
+                     Connections="{Binding Connections}"
+                     PendingConnection="{Binding PendingConnection}">
+
+    <nodify:NodifyEditor.ItemContainerStyle>
+        <Style TargetType="{x:Type nodify:ItemContainer}">
+            <Setter Property="Location" 
+                    Value="{Binding Location}" />
+        </Style>
+    </nodify:NodifyEditor.ItemContainerStyle>
+
+    ...
+
+</nodify:NodifyEditor>
+```
+
+> Note: I used the `ItemContainerStyle` to bind the location of the node. Please check out the [ItemContainer overview](ItemContainer-Overview) for more info.
+
+Now you can set the location of the nodes when constructed.
+
 ## Drawing a grid
 
 Drawing a simple grid is just a matter of creating a grid brush, applying the editor transform to it, and using the brush as the `Background` of the editor.
