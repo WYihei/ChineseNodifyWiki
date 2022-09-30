@@ -6,3 +6,7 @@ A1: You didn't bind the `Anchor` of the connector, or the `Source` and `Target` 
 A2: The `Anchor` of the connectors updates only if the `IsConnected` property is set to true.
 
 ***
+
+#### Q: Would there be an Avalonia port?
+
+A1: No.
