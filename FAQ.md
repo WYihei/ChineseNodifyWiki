@@ -9,4 +9,4 @@ A2: The `Anchor` of the connectors updates only if the `IsConnected` property is
 
 #### Q: Would there be an Avalonia port?
 
-A1: No.
+A: No.
