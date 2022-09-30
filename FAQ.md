@@ -10,3 +10,9 @@ A2: The `Anchor` of the connectors updates only if the `IsConnected` property is
 #### Q: Would there be an Avalonia port?
 
 A: No.
+
+***
+
+#### Q: Is there a non-MVVM approach to adding nodes and connections?
+
+A: No.
