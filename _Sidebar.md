@@ -31,4 +31,6 @@
 
 [Connectors overview](Connectors-Overview)
 
+[API Reference](API-Reference)
+
 [(FAQ) Frequently asked questions](FAQ)
