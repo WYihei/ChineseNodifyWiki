@@ -3,24 +3,36 @@
 - [BoxValue Class](#boxvalue-class)
 - [CircuitConnection Class](#circuitconnection-class)
 - [Connection Class](#connection-class)
+- [Connection Class](#connection-class)
 - [ConnectionDirection Enum](#connectiondirection-enum)
 - [ConnectionEventArgs Class](#connectioneventargs-class)
 - [ConnectionEventHandler Delegate](#connectioneventhandler-delegate)
 - [ConnectionOffsetMode Enum](#connectionoffsetmode-enum)
 - [Connector Class](#connector-class)
+- [Connector Class](#connector-class)
+- [ConnectorEventArgs Class](#connectoreventargs-class)
 - [ConnectorEventHandler Delegate](#connectoreventhandler-delegate)
+- [ContainerDefaultState Class](#containerdefaultstate-class)
+- [ContainerDraggingState Class](#containerdraggingstate-class)
+- [ContainerState Class](#containerstate-class)
 - [DecoratorContainer Class](#decoratorcontainer-class)
 - [EditorCommands Class](#editorcommands-class)
 - [EditorDefaultState Class](#editordefaultstate-class)
+- [EditorGestures Class](#editorgestures-class)
 - [EditorPanningState Class](#editorpanningstate-class)
 - [EditorSelectingState Class](#editorselectingstate-class)
 - [EditorState Class](#editorstate-class)
+- [GeneratedInternalTypeHelper Class](#generatedinternaltypehelper-class)
 - [GroupingMovementMode Enum](#groupingmovementmode-enum)
+- [GroupingNode Class](#groupingnode-class)
 - [GroupingNode Class](#groupingnode-class)
 - [INodifyCanvasItem Interface](#inodifycanvasitem-interface)
 - [ItemContainer Class](#itemcontainer-class)
+- [ItemContainer Class](#itemcontainer-class)
 - [KnotNode Class](#knotnode-class)
 - [LineConnection Class](#lineconnection-class)
+- [Match Enum](#match-enum)
+- [MultiGesture Class](#multigesture-class)
 - [Node Class](#node-class)
 - [NodeInput Class](#nodeinput-class)
 - [NodeOutput Class](#nodeoutput-class)
@@ -32,10 +44,10 @@
 - [PreviewLocationChanged Delegate](#previewlocationchanged-delegate)
 - [ResizeEventArgs Class](#resizeeventargs-class)
 - [ResizeEventHandler Delegate](#resizeeventhandler-delegate)
+- [Selection Class](#selection-class)
 - [SelectionHelper Class](#selectionhelper-class)
 - [SelectionType Enum](#selectiontype-enum)
 - [StateNode Class](#statenode-class)
-
 
 ## Alignment Enum
 
@@ -309,8 +321,8 @@ public ConnectionDirection Direction { get; set; }
 
 #### DisconnectCommand
 
-Removes this connection. Triggered with ALT+Click.
-Parameter is the location where this was clicked.
+Removes this connection. Triggered by Nodify.EditorGestures.Connection.Disconnect gesture.
+            Parameter is the location where the disconnect ocurred.
 
 ```csharp
 public ICommand DisconnectCommand { get; set; }
@@ -370,8 +382,8 @@ public double Spacing { get; set; }
 
 #### SplitCommand
 
-Splits the connection. Triggered on double click.
-Parameter is the location where this was clicked.
+Splits the connection. Triggered by Nodify.EditorGestures.Connection.Split gesture.
+            Parameter is the location where the splitting ocurred.
 
 ```csharp
 public ICommand SplitCommand { get; set; }
@@ -467,20 +479,20 @@ protected virtual ValueTuple<Vector, Vector> GetOffset();
 
 [ValueTuple<Vector, Vector>](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple)
 
-#### OnMouseLeftButtonDown(MouseButtonEventArgs)
+#### OnMouseDown(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e);
+protected override void OnMouseDown(MouseButtonEventArgs e);
 ```
 
 **Parameters**
 
 `e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
 
-#### OnMouseLeftButtonUp(MouseButtonEventArgs)
+#### OnMouseUp(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e);
+protected override void OnMouseUp(MouseButtonEventArgs e);
 ```
 
 **Parameters**
@@ -491,7 +503,7 @@ protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e);
 
 #### Disconnect
 
-Occurs when the [ModifierKeys.Alt](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.ModifierKeys.alt) key is held and the [BaseConnection](#baseconnection-class) is clicked.
+Triggered by the Nodify.EditorGestures.Connection.Disconnect gesture.
 
 ```csharp
 public event ConnectionEventHandler Disconnect;
@@ -503,7 +515,7 @@ public event ConnectionEventHandler Disconnect;
 
 #### Split
 
-Occurs when the [BaseConnection](#baseconnection-class) is double clicked.
+Triggered by the Nodify.EditorGestures.Connection.Split gesture.
 
 ```csharp
 public event ConnectionEventHandler Split;
@@ -799,6 +811,40 @@ protected override ValueTuple<Point, Point> DrawLineGeometry(StreamGeometryConte
 
 [ValueTuple<Point, Point>](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple)
 
+## Connection Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [Connection](#connection-class)
+
+```csharp
+public static class Connection
+```
+
+### Properties
+
+#### Disconnect
+
+```csharp
+public static InputGesture Disconnect { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Split
+
+```csharp
+public static InputGesture Split { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
 ## ConnectionDirection Enum
 
 **Namespace:** Nodify
@@ -1005,14 +1051,62 @@ public const ConnectionOffsetMode Rectangle = 2;
 
 **Assembly:** Nodify
 
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [Connector](#connector-class)
+
+**References:** [PendingConnection](#pendingconnection-class), [Connection](#connection-class), [ItemContainer](#itemcontainer-class), [NodifyEditor](#nodifyeditor-class), [ConnectorEventHandler](#connectoreventhandler-delegate), [ConnectorEventArgs](#connectoreventargs-class), [PendingConnectionEventArgs](#pendingconnectioneventargs-class), [KnotNode](#knotnode-class), [Node](#node-class), [NodeInput](#nodeinput-class), [NodeOutput](#nodeoutput-class), [StateNode](#statenode-class)
+
+Represents a connector control that can start and complete a [PendingConnection](#pendingconnection-class).
+            Has a [Connector.ElementConnector](#connector-class#elementconnector) that the [Connector.Anchor](#connector-class#anchor) is calculated from for the [PendingConnection](#pendingconnection-class). Center of this control is used if missing.
+
+```csharp
+public static class Connector
+```
+
+### Properties
+
+#### CancelAction
+
+```csharp
+public static InputGesture CancelAction { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Connect
+
+```csharp
+public static InputGesture Connect { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Disconnect
+
+Triggered by the Nodify.EditorGestures.Connector.Disconnect gesture.
+
+```csharp
+public static InputGesture Disconnect { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+## Connector Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [DispatcherObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Threading.DispatcherObject) → [DependencyObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyObject) → [Visual](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Visual) → [UIElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement) → [FrameworkElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement) → [Control](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Control) → [Connector](#connector-class)
 
 **Derived:** [NodeInput](#nodeinput-class), [NodeOutput](#nodeoutput-class), [StateNode](#statenode-class)
 
-**References:** [PendingConnectionEventHandler](#pendingconnectioneventhandler-delegate), [ConnectorEventHandler](#connectoreventhandler-delegate), [ItemContainer](#itemcontainer-class), [NodifyEditor](#nodifyeditor-class), [PendingConnection](#pendingconnection-class), [Connection](#connection-class), [ConnectorEventArgs](#connectoreventargs-class), [PendingConnectionEventArgs](#pendingconnectioneventargs-class), [KnotNode](#knotnode-class), [Node](#node-class), [NodeInput](#nodeinput-class), [NodeOutput](#nodeoutput-class), [StateNode](#statenode-class)
-
-Represents a connector control which starts a [PendingConnection](#pendingconnection-class) when being dragged and completes it when released.
-Has a [Connector.ElementConnector](#connector-class#elementconnector) that the [Connector.Anchor](#connector-class#anchor) is calculated from for the [PendingConnection](#pendingconnection-class). Center of this control is used if missing.
+**References:** [PendingConnectionEventHandler](#pendingconnectioneventhandler-delegate), [ConnectorEventHandler](#connectoreventhandler-delegate), [ItemContainer](#itemcontainer-class)
 
 ```csharp
 public class Connector : Control
@@ -1070,8 +1164,6 @@ protected const string ElementConnector = "PART_Connector";
 
 #### EnableOptimizations
 
-Gets or sets if [Connector](#connector-class)s should enable optimizations based on [Connector.OptimizeSafeZone](#connector-class#optimizesafezone) and [Connector.OptimizeMinimumSelectedItems](#connector-class#optimizeminimumselecteditems).
-
 ```csharp
 public static bool EnableOptimizations;
 ```
@@ -1102,8 +1194,6 @@ public static DependencyProperty IsPendingConnectionProperty;
 
 #### OptimizeMinimumSelectedItems
 
-Gets or sets the minimum selected items needed to trigger optimizations when outside of the [Connector.OptimizeSafeZone](#connector-class#optimizesafezone).
-
 ```csharp
 public static uint OptimizeMinimumSelectedItems;
 ```
@@ -1113,8 +1203,6 @@ public static uint OptimizeMinimumSelectedItems;
 [UInt32](https://docs.microsoft.com/en-us/dotnet/api/System.UInt32)
 
 #### OptimizeSafeZone
-
-Gets or sets the safe zone outside the editor's viewport that will not trigger optimizations.
 
 ```csharp
 public static double OptimizeSafeZone;
@@ -1158,8 +1246,6 @@ public static RoutedEvent PendingConnectionStartedEvent;
 
 #### AllowPendingConnectionCancellation
 
-Gets or sets whether cancelling a pending connection is allowed.
-
 ```csharp
 public static bool AllowPendingConnectionCancellation { get; set; }
 ```
@@ -1169,9 +1255,6 @@ public static bool AllowPendingConnectionCancellation { get; set; }
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
 
 #### Anchor
-
-Gets the location where [Connection](#connection-class)s can be attached to.
-Bind with System.Windows.Data.BindingMode.OneWayToSource
 
 ```csharp
 public Point Anchor { get; set; }
@@ -1183,8 +1266,6 @@ public Point Anchor { get; set; }
 
 #### Container
 
-Gets the [ItemContainer](#itemcontainer-class) that contains this [Connector](#connector-class).
-
 ```csharp
 protected ItemContainer Container { get; set; }
 ```
@@ -1195,9 +1276,6 @@ protected ItemContainer Container { get; set; }
 
 #### DisconnectCommand
 
-Invoked if the [Connector.Disconnect](#connector-class#disconnect) event is not handled.
-Parameter is the [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext) of this control.
-
 ```csharp
 public ICommand DisconnectCommand { get; set; }
 ```
@@ -1206,21 +1284,17 @@ public ICommand DisconnectCommand { get; set; }
 
 [ICommand](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.ICommand)
 
-#### Editor
-
-Gets the [NodifyEditor](#nodifyeditor-class) that owns this [Connector.Container](#connector-class#container).
+#### EnableStickyConnections
 
 ```csharp
-protected NodifyEditor Editor { get; set; }
+public static bool EnableStickyConnections { get; set; }
 ```
 
 **Property Value**
 
-[NodifyEditor](#nodifyeditor-class)
+[Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
 
 #### IsConnected
-
-If this is set to false, the [Connector.Disconnect](#connector-class#disconnect) event will not be invoked and the connector will stop updating its [Connector.Anchor](#connector-class#anchor) when moved, resized etc.
 
 ```csharp
 public bool IsConnected { get; set; }
@@ -1232,8 +1306,6 @@ public bool IsConnected { get; set; }
 
 #### IsPendingConnection
 
-Gets a value that indicates whether a [PendingConnection](#pendingconnection-class) is in progress for this [Connector](#connector-class).
-
 ```csharp
 public bool IsPendingConnection { get; protected set; }
 ```
@@ -1243,8 +1315,6 @@ public bool IsPendingConnection { get; protected set; }
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
 
 #### Thumb
-
-Gets the [FrameworkElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement) used to calculate the [Connector.Anchor](#connector-class#anchor).
 
 ```csharp
 protected FrameworkElement Thumb { get; set; }
@@ -1294,6 +1364,16 @@ protected virtual void OnConnectorDragStarted();
 protected virtual void OnDisconnect();
 ```
 
+#### OnKeyUp(KeyEventArgs)
+
+```csharp
+protected override void OnKeyUp(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
 #### OnLostMouseCapture(MouseEventArgs)
 
 ```csharp
@@ -1304,20 +1384,10 @@ protected override void OnLostMouseCapture(MouseEventArgs e);
 
 `e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
 
-#### OnMouseLeftButtonDown(MouseButtonEventArgs)
+#### OnMouseDown(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e);
-```
-
-**Parameters**
-
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-#### OnMouseLeftButtonUp(MouseButtonEventArgs)
-
-```csharp
-protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e);
+protected override void OnMouseDown(MouseButtonEventArgs e);
 ```
 
 **Parameters**
@@ -1334,10 +1404,10 @@ protected override void OnMouseMove(MouseEventArgs e);
 
 `e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
 
-#### OnMouseRightButtonUp(MouseButtonEventArgs)
+#### OnMouseUp(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseRightButtonUp(MouseButtonEventArgs e);
+protected override void OnMouseUp(MouseButtonEventArgs e);
 ```
 
 **Parameters**
@@ -1356,27 +1426,21 @@ protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo);
 
 #### UpdateAnchor(Point)
 
-Updates the [Connector.Anchor](#connector-class#anchor) relative to a location. (usually [Connector.Container](#connector-class#container)'s location)
-
 ```csharp
 protected void UpdateAnchor(Point location);
 ```
 
 **Parameters**
 
-`location` [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point): The relative location
+`location` [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point)
 
 #### UpdateAnchor()
-
-Updates the [Connector.Anchor](#connector-class#anchor) based on [Connector.Container](#connector-class#container)'s location.
 
 ```csharp
 public void UpdateAnchor();
 ```
 
 #### UpdateAnchorOptimized(Point)
-
-Updates the [Connector.Anchor](#connector-class#anchor) and applies optimizations if needed based on [Connector.EnableOptimizations](#connector-class#enableoptimizations) flag
 
 ```csharp
 protected void UpdateAnchorOptimized(Point location);
@@ -1390,8 +1454,6 @@ protected void UpdateAnchorOptimized(Point location);
 
 #### Disconnect
 
-Occurs when the [ModifierKeys.Alt](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.ModifierKeys.alt) key is held and the [Connector](#connector-class) is clicked.
-
 ```csharp
 public event ConnectorEventHandler Disconnect;
 ```
@@ -1401,8 +1463,6 @@ public event ConnectorEventHandler Disconnect;
 [ConnectorEventHandler](#connectoreventhandler-delegate)
 
 #### PendingConnectionCompleted
-
-Occurs when the [Connector](#connector-class) loses mouse capture.
 
 ```csharp
 public event PendingConnectionEventHandler PendingConnectionCompleted;
@@ -1414,8 +1474,6 @@ public event PendingConnectionEventHandler PendingConnectionCompleted;
 
 #### PendingConnectionDrag
 
-Occurs when the mouse is changing position and the [Connector](#connector-class) has mouse capture.
-
 ```csharp
 public event PendingConnectionEventHandler PendingConnectionDrag;
 ```
@@ -1425,8 +1483,6 @@ public event PendingConnectionEventHandler PendingConnectionDrag;
 [PendingConnectionEventHandler](#pendingconnectioneventhandler-delegate)
 
 #### PendingConnectionStarted
-
-Occurs when the [Connector](#connector-class) is clicked.
 
 ```csharp
 public event PendingConnectionEventHandler PendingConnectionStarted;
@@ -1514,7 +1570,7 @@ protected override void InvokeEventHandler(Delegate genericHandler, object gener
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [Delegate](https://docs.microsoft.com/en-us/dotnet/api/System.Delegate) → [MulticastDelegate](https://docs.microsoft.com/en-us/dotnet/api/System.MulticastDelegate) → [ConnectorEventHandler](#connectoreventhandler-delegate)
 
-**References:** [ConnectorEventArgs](#connectoreventargs-class), [Connector](#connector-class)
+**References:** [ConnectorEventArgs](#connectoreventargs-class), [Connector](#connector-class), [Connector](#connector-class)
 
 Represents the method that will handle [Connector](#connector-class) related routed events.
 
@@ -1527,6 +1583,340 @@ public delegate void ConnectorEventHandler(object sender, ConnectorEventArgs e);
 `sender` [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object): The object where the event handler is attached.
 
 `e` [ConnectorEventArgs](#connectoreventargs-class): The event data.
+
+## ContainerDefaultState Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [ContainerState](#containerstate-class) → [ContainerDefaultState](#containerdefaultstate-class)
+
+**References:** [ItemContainer](#itemcontainer-class), [ContainerState](#containerstate-class), [ItemContainer](#itemcontainer-class)
+
+The default state of the [ItemContainer](#itemcontainer-class).
+
+```csharp
+public class ContainerDefaultState : ContainerState
+```
+
+### Constructors
+
+#### ContainerDefaultState(ItemContainer)
+
+Creates a new instance of the [ContainerDefaultState](#containerdefaultstate-class).
+
+```csharp
+public ContainerDefaultState(ItemContainer container);
+```
+
+**Parameters**
+
+`container` [ItemContainer](#itemcontainer-class): The owner of the state.
+
+### Methods
+
+#### HandleMouseDown(MouseButtonEventArgs)
+
+```csharp
+public override void HandleMouseDown(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+#### HandleMouseMove(MouseEventArgs)
+
+```csharp
+public override void HandleMouseMove(MouseEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
+
+#### HandleMouseUp(MouseButtonEventArgs)
+
+```csharp
+public override void HandleMouseUp(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+#### ReEnter(ContainerState)
+
+```csharp
+public override void ReEnter(ContainerState from);
+```
+
+**Parameters**
+
+`from` [ContainerState](#containerstate-class)
+
+## ContainerDraggingState Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [ContainerState](#containerstate-class) → [ContainerDraggingState](#containerdraggingstate-class)
+
+**References:** [ItemContainer](#itemcontainer-class), [ContainerState](#containerstate-class)
+
+Dragging state of the container.
+
+```csharp
+public class ContainerDraggingState : ContainerState
+```
+
+### Constructors
+
+#### ContainerDraggingState(ItemContainer)
+
+Constructs an instance of the [ContainerDraggingState](#containerdraggingstate-class) state.
+
+```csharp
+public ContainerDraggingState(ItemContainer container);
+```
+
+**Parameters**
+
+`container` [ItemContainer](#itemcontainer-class): The owner of the state.
+
+### Properties
+
+#### Canceled
+
+```csharp
+public bool Canceled { get; set; }
+```
+
+**Property Value**
+
+[Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
+
+### Methods
+
+#### Enter(ContainerState)
+
+```csharp
+public override void Enter(ContainerState from);
+```
+
+**Parameters**
+
+`from` [ContainerState](#containerstate-class)
+
+#### Exit()
+
+```csharp
+public override void Exit();
+```
+
+#### HandleKeyUp(KeyEventArgs)
+
+```csharp
+public override void HandleKeyUp(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
+#### HandleMouseMove(MouseEventArgs)
+
+```csharp
+public override void HandleMouseMove(MouseEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
+
+#### HandleMouseUp(MouseButtonEventArgs)
+
+```csharp
+public override void HandleMouseUp(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+## ContainerState Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [ContainerState](#containerstate-class)
+
+**Derived:** [ContainerDefaultState](#containerdefaultstate-class), [ContainerDraggingState](#containerdraggingstate-class)
+
+**References:** [ContainerDefaultState](#containerdefaultstate-class), [ContainerDraggingState](#containerdraggingstate-class), [ItemContainer](#itemcontainer-class), [NodifyEditor](#nodifyeditor-class)
+
+The base class for container states.
+
+```csharp
+public abstract class ContainerState
+```
+
+### Constructors
+
+#### ContainerState(ItemContainer)
+
+Constructs a new [ContainerState](#containerstate-class).
+
+```csharp
+public ContainerState(ItemContainer container);
+```
+
+**Parameters**
+
+`container` [ItemContainer](#itemcontainer-class): The owner of the state.
+
+### Properties
+
+#### Container
+
+The owner of the state.
+
+```csharp
+protected ItemContainer Container { get; set; }
+```
+
+**Property Value**
+
+[ItemContainer](#itemcontainer-class)
+
+#### Editor
+
+The owner of the state.
+
+```csharp
+protected NodifyEditor Editor { get; set; }
+```
+
+**Property Value**
+
+[NodifyEditor](#nodifyeditor-class)
+
+### Methods
+
+#### Enter(ContainerState)
+
+Called when Nodify.ItemContainer.PushState(Nodify.ContainerState) or Nodify.ItemContainer.PopState is called.
+
+```csharp
+public virtual void Enter(ContainerState from);
+```
+
+**Parameters**
+
+`from` [ContainerState](#containerstate-class): The state we enter from (is null for root state).
+
+#### Exit()
+
+Called when Nodify.ItemContainer.PopState is called.
+
+```csharp
+public virtual void Exit();
+```
+
+#### HandleKeyDown(KeyEventArgs)
+
+```csharp
+public virtual void HandleKeyDown(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
+#### HandleKeyUp(KeyEventArgs)
+
+```csharp
+public virtual void HandleKeyUp(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
+#### HandleMouseDown(MouseButtonEventArgs)
+
+```csharp
+public virtual void HandleMouseDown(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+#### HandleMouseMove(MouseEventArgs)
+
+```csharp
+public virtual void HandleMouseMove(MouseEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
+
+#### HandleMouseUp(MouseButtonEventArgs)
+
+```csharp
+public virtual void HandleMouseUp(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+#### HandleMouseWheel(MouseWheelEventArgs)
+
+```csharp
+public virtual void HandleMouseWheel(MouseWheelEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseWheelEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseWheelEventArgs)
+
+#### PopState()
+
+Pops the current state from the stack.
+
+```csharp
+public virtual void PopState();
+```
+
+#### PushState(ContainerState)
+
+Pushes a new state into the stack.
+
+```csharp
+public virtual void PushState(ContainerState newState);
+```
+
+**Parameters**
+
+`newState` [ContainerState](#containerstate-class): The new state.
+
+#### ReEnter(ContainerState)
+
+Called when Nodify.ItemContainer.PopState is called.
+
+```csharp
+public virtual void ReEnter(ContainerState from);
+```
+
+**Parameters**
+
+`from` [ContainerState](#containerstate-class): The state we re-enter from.
 
 ## DecoratorContainer Class
 
@@ -1665,7 +2055,7 @@ public static class EditorCommands
 #### Align
 
 Aligns [NodifyEditor.SelectedItems](#nodifyeditor-class#selecteditems) using the specified alignment method.
-Parameter is of type Nodify.EditorCommands.Alignment or a string that can be converted to an alignment.
+            Parameter is of type Nodify.EditorCommands.Alignment or a string that can be converted to an alignment.
 
 ```csharp
 public static RoutedUICommand Align { get; set; }
@@ -1678,7 +2068,7 @@ public static RoutedUICommand Align { get; set; }
 #### BringIntoView
 
 Moves the [NodifyEditor.ViewportLocation](#nodifyeditor-class#viewportlocation) to the specified location.
-Parameter is a [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point) or a string that can be converted to a point.
+            Parameter is a [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point) or a string that can be converted to a point.
 
 ```csharp
 public static RoutedUICommand BringIntoView { get; set; }
@@ -1744,7 +2134,18 @@ public static RoutedUICommand ZoomOut { get; set; }
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [EditorState](#editorstate-class) → [EditorDefaultState](#editordefaultstate-class)
 
-**References:** [NodifyEditor](#nodifyeditor-class), [EditorState](#editorstate-class)
+**References:** [NodifyEditor](#nodifyeditor-class)
+
+The default state of the editor.
+              Default State
+               - mouse left down   -> Selecting State
+               - mouse right down  -> Panning State
+              Selecting State
+               - mouse left up  -> Default State
+               - mouse right down  -> Panning State
+              Panning State
+               - mouse right up -> previous state (Selecting State or Default State)
+               - mouse left up  -> Panning State
 
 ```csharp
 public class EditorDefaultState : EditorState
@@ -1754,29 +2155,129 @@ public class EditorDefaultState : EditorState
 
 #### EditorDefaultState(NodifyEditor)
 
+Constructs an instance of the [EditorDefaultState](#editordefaultstate-class) state.
+
 ```csharp
 public EditorDefaultState(NodifyEditor editor);
 ```
 
 **Parameters**
 
-`editor` [NodifyEditor](#nodifyeditor-class)
+`editor` [NodifyEditor](#nodifyeditor-class): The owner of the state.
 
 ### Methods
 
-#### HandleMouseButtonDown(MouseButtonEventArgs)
+#### HandleMouseDown(MouseButtonEventArgs)
 
 ```csharp
-public override EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
+public override void HandleMouseDown(MouseButtonEventArgs e);
 ```
 
 **Parameters**
 
 `e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
 
-**Returns**
+## EditorGestures Class
 
-[EditorState](#editorstate-class)
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [EditorGestures](#editorgestures-class)
+
+**References:** [NodifyEditor](#nodifyeditor-class)
+
+Gestures used by the [NodifyEditor](#nodifyeditor-class).
+
+```csharp
+public static class EditorGestures
+```
+
+### Properties
+
+#### FitToScreen
+
+Gesture used to fit as many containers as possible into the viewport.
+
+```csharp
+public static InputGesture FitToScreen { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Pan
+
+Gesture used to start panning.
+
+```csharp
+public static InputGesture Pan { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### ResetViewportLocation
+
+Gesture used to move the editor's viewport location to (0, 0).
+
+```csharp
+public static InputGesture ResetViewportLocation { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Select
+
+Gesture used to start selecting using a Nodify.EditorGestures.Selection strategy.
+
+```csharp
+public static InputGesture Select { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Zoom
+
+The key modifier required to start zooming by mouse wheel.
+
+```csharp
+public static ModifierKeys Zoom { get; set; }
+```
+
+**Property Value**
+
+[ModifierKeys](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.ModifierKeys)
+
+#### ZoomIn
+
+Gesture used to zoom in.
+
+```csharp
+public static InputGesture ZoomIn { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### ZoomOut
+
+Gesture used to zoom out.
+
+```csharp
+public static InputGesture ZoomOut { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
 
 ## EditorPanningState Class
 
@@ -1788,6 +2289,8 @@ public override EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
 
 **References:** [NodifyEditor](#nodifyeditor-class), [EditorState](#editorstate-class)
 
+The panning state of the editor.
+
 ```csharp
 public class EditorPanningState : EditorState
 ```
@@ -1796,29 +2299,53 @@ public class EditorPanningState : EditorState
 
 #### EditorPanningState(NodifyEditor)
 
+Constructs an instance of the [EditorPanningState](#editorpanningstate-class) state.
+
 ```csharp
 public EditorPanningState(NodifyEditor editor);
 ```
 
 **Parameters**
 
-`editor` [NodifyEditor](#nodifyeditor-class)
+`editor` [NodifyEditor](#nodifyeditor-class): The owner of the state.
 
 ### Methods
 
-#### HandleMouseButtonDown(MouseButtonEventArgs)
+#### Enter(EditorState)
 
 ```csharp
-public override EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
+public override void Enter(EditorState from);
+```
+
+**Parameters**
+
+`from` [EditorState](#editorstate-class)
+
+#### Exit()
+
+```csharp
+public override void Exit();
+```
+
+#### HandleMouseMove(MouseEventArgs)
+
+```csharp
+public override void HandleMouseMove(MouseEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
+
+#### HandleMouseUp(MouseButtonEventArgs)
+
+```csharp
+public override void HandleMouseUp(MouseButtonEventArgs e);
 ```
 
 **Parameters**
 
 `e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-**Returns**
-
-[EditorState](#editorstate-class)
 
 ## EditorSelectingState Class
 
@@ -1828,9 +2355,9 @@ public override EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [EditorState](#editorstate-class) → [EditorSelectingState](#editorselectingstate-class)
 
-**References:** [NodifyEditor](#nodifyeditor-class), [EditorState](#editorstate-class), [SelectionHelper](#selectionhelper-class), [ItemContainer](#itemcontainer-class)
+**References:** [NodifyEditor](#nodifyeditor-class), [SelectionType](#selectiontype-enum), [SelectionHelper](#selectionhelper-class), [EditorState](#editorstate-class)
 
-[NodifyEditor](#nodifyeditor-class) selecting state.
+The selecting state of the editor.
 
 ```csharp
 public class EditorSelectingState : EditorState
@@ -1838,21 +2365,25 @@ public class EditorSelectingState : EditorState
 
 ### Constructors
 
-#### EditorSelectingState(NodifyEditor)
+#### EditorSelectingState(NodifyEditor, SelectionType)
+
+Constructs an instance of the [EditorSelectingState](#editorselectingstate-class) state.
 
 ```csharp
-public EditorSelectingState(NodifyEditor editor);
+public EditorSelectingState(NodifyEditor editor, SelectionType type);
 ```
 
 **Parameters**
 
-`editor` [NodifyEditor](#nodifyeditor-class)
+`editor` [NodifyEditor](#nodifyeditor-class): The owner of the state.
+
+`type` [SelectionType](#selectiontype-enum)
 
 ### Properties
 
 #### Selection
 
-Helps with selecting [ItemContainer](#itemcontainer-class)s and updating the [NodifyEditor.SelectedArea](#nodifyeditor-class#selectedarea) and [NodifyEditor.IsSelecting](#nodifyeditor-class#isselecting) properties.
+The selection helper.
 
 ```csharp
 protected SelectionHelper Selection { get; set; }
@@ -1864,53 +2395,61 @@ protected SelectionHelper Selection { get; set; }
 
 ### Methods
 
+#### Enter(EditorState)
+
+```csharp
+public override void Enter(EditorState from);
+```
+
+**Parameters**
+
+`from` [EditorState](#editorstate-class)
+
 #### Exit()
 
 ```csharp
 public override void Exit();
 ```
 
-#### HandleMouseButtonDown(MouseButtonEventArgs)
+#### HandleAutoPanning(MouseEventArgs)
 
 ```csharp
-public override EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
-```
-
-**Parameters**
-
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-**Returns**
-
-[EditorState](#editorstate-class)
-
-#### HandleMouseButtonUp(MouseButtonEventArgs)
-
-```csharp
-public override EditorState HandleMouseButtonUp(MouseButtonEventArgs e);
-```
-
-**Parameters**
-
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-**Returns**
-
-[EditorState](#editorstate-class)
-
-#### HandleMouseMove(MouseEventArgs)
-
-```csharp
-public override EditorState HandleMouseMove(MouseEventArgs e);
+public override void HandleAutoPanning(MouseEventArgs e);
 ```
 
 **Parameters**
 
 `e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
 
-**Returns**
+#### HandleMouseDown(MouseButtonEventArgs)
 
-[EditorState](#editorstate-class)
+```csharp
+public override void HandleMouseDown(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+#### HandleMouseMove(MouseEventArgs)
+
+```csharp
+public override void HandleMouseMove(MouseEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
+
+#### HandleMouseUp(MouseButtonEventArgs)
+
+```csharp
+public override void HandleMouseUp(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
 
 ## EditorState Class
 
@@ -1920,9 +2459,11 @@ public override EditorState HandleMouseMove(MouseEventArgs e);
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [EditorState](#editorstate-class)
 
-**Derived:** [EditorDefaultState](#editordefaultstate-class), [EditorSelectingState](#editorselectingstate-class), [EditorPanningState](#editorpanningstate-class)
+**Derived:** [EditorDefaultState](#editordefaultstate-class), [EditorPanningState](#editorpanningstate-class), [EditorSelectingState](#editorselectingstate-class)
 
-**References:** [NodifyEditor](#nodifyeditor-class), [EditorDefaultState](#editordefaultstate-class), [EditorSelectingState](#editorselectingstate-class), [EditorPanningState](#editorpanningstate-class)
+**References:** [EditorPanningState](#editorpanningstate-class), [EditorSelectingState](#editorselectingstate-class), [NodifyEditor](#nodifyeditor-class)
+
+The base class for editor states.
 
 ```csharp
 public abstract class EditorState
@@ -1932,17 +2473,21 @@ public abstract class EditorState
 
 #### EditorState(NodifyEditor)
 
+Constructs a new [EditorState](#editorstate-class).
+
 ```csharp
 public EditorState(NodifyEditor editor);
 ```
 
 **Parameters**
 
-`editor` [NodifyEditor](#nodifyeditor-class)
+`editor` [NodifyEditor](#nodifyeditor-class): The owner of the state.
 
 ### Properties
 
 #### Editor
+
+The owner of the state.
 
 ```csharp
 protected NodifyEditor Editor { get; set; }
@@ -1954,73 +2499,129 @@ protected NodifyEditor Editor { get; set; }
 
 ### Methods
 
-#### Enter()
+#### Enter(EditorState)
+
+Called when Nodify.NodifyEditor.PushState(Nodify.EditorState) is called.
 
 ```csharp
-public virtual void Enter();
+public virtual void Enter(EditorState from);
 ```
 
+**Parameters**
+
+`from` [EditorState](#editorstate-class): The state we enter from (is null for root state).
+
 #### Exit()
+
+Called when Nodify.NodifyEditor.PopState is called.
 
 ```csharp
 public virtual void Exit();
 ```
 
-#### HandleMouseButton(MouseButtonEventArgs)
+#### HandleAutoPanning(MouseEventArgs)
+
+Handles auto panning when mouse is outside the editor.
 
 ```csharp
-public EditorState HandleMouseButton(MouseButtonEventArgs e);
+public virtual void HandleAutoPanning(MouseEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs): The [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs) that contains the event data.
+
+#### HandleKeyDown(KeyEventArgs)
+
+```csharp
+public virtual void HandleKeyDown(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
+#### HandleKeyUp(KeyEventArgs)
+
+```csharp
+public virtual void HandleKeyUp(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
+#### HandleMouseDown(MouseButtonEventArgs)
+
+```csharp
+public virtual void HandleMouseDown(MouseButtonEventArgs e);
 ```
 
 **Parameters**
 
 `e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-**Returns**
-
-[EditorState](#editorstate-class)
-
-#### HandleMouseButtonDown(MouseButtonEventArgs)
-
-```csharp
-public virtual EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
-```
-
-**Parameters**
-
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-**Returns**
-
-[EditorState](#editorstate-class)
-
-#### HandleMouseButtonUp(MouseButtonEventArgs)
-
-```csharp
-public virtual EditorState HandleMouseButtonUp(MouseButtonEventArgs e);
-```
-
-**Parameters**
-
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-**Returns**
-
-[EditorState](#editorstate-class)
 
 #### HandleMouseMove(MouseEventArgs)
 
 ```csharp
-public virtual EditorState HandleMouseMove(MouseEventArgs e);
+public virtual void HandleMouseMove(MouseEventArgs e);
 ```
 
 **Parameters**
 
 `e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
 
-**Returns**
+#### HandleMouseUp(MouseButtonEventArgs)
 
-[EditorState](#editorstate-class)
+```csharp
+public virtual void HandleMouseUp(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+#### HandleMouseWheel(MouseWheelEventArgs)
+
+```csharp
+public virtual void HandleMouseWheel(MouseWheelEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseWheelEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseWheelEventArgs)
+
+#### PopState()
+
+Pops the current state from the stack.
+
+```csharp
+public virtual void PopState();
+```
+
+#### PushState(EditorState)
+
+Pushes a new state into the stack.
+
+```csharp
+public virtual void PushState(EditorState newState);
+```
+
+**Parameters**
+
+`newState` [EditorState](#editorstate-class): The new state.
+
+#### ReEnter(EditorState)
+
+Called when Nodify.NodifyEditor.PopState is called.
+
+```csharp
+public virtual void ReEnter(EditorState from);
+```
+
+**Parameters**
+
+`from` [EditorState](#editorstate-class): The state we re-enter from.
 
 ## GeneratedInternalTypeHelper Class
 
@@ -2146,7 +2747,7 @@ protected override void SetPropertyValue(PropertyInfo propertyInfo, object targe
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [ValueType](https://docs.microsoft.com/en-us/dotnet/api/System.ValueType) → [Enum](https://docs.microsoft.com/en-us/dotnet/api/System.Enum) → [GroupingMovementMode](#groupingmovementmode-enum)
 
-**References:** [GroupingNode](#groupingnode-class)
+**References:** [GroupingNode](#groupingnode-class), [GroupingNode](#groupingnode-class)
 
 Specifies the possible movement modes of a [GroupingNode](#groupingnode-class).
 
@@ -2186,11 +2787,37 @@ public const GroupingMovementMode Self = 1;
 
 **Assembly:** Nodify
 
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [GroupingNode](#groupingnode-class)
+
+**References:** [GroupingMovementMode](#groupingmovementmode-enum), [ItemContainer](#itemcontainer-class), [NodifyEditor](#nodifyeditor-class)
+
+Defines a panel with a header that groups [ItemContainer](#itemcontainer-class)s inside it and can be resized.
+
+```csharp
+public static class GroupingNode
+```
+
+### Properties
+
+#### SwitchMovementMode
+
+```csharp
+public static ModifierKeys SwitchMovementMode { get; set; }
+```
+
+**Property Value**
+
+[ModifierKeys](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.ModifierKeys)
+
+## GroupingNode Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [DispatcherObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Threading.DispatcherObject) → [DependencyObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyObject) → [Visual](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Visual) → [UIElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement) → [FrameworkElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement) → [Control](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Control) → [ContentControl](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ContentControl) → [HeaderedContentControl](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.HeaderedContentControl) → [GroupingNode](#groupingnode-class)
 
 **References:** [ResizeEventHandler](#resizeeventhandler-delegate), [GroupingMovementMode](#groupingmovementmode-enum), [NodifyEditor](#nodifyeditor-class), [ItemContainer](#itemcontainer-class)
-
-Defines a panel with a header that groups [ItemContainer](#itemcontainer-class)s inside it and can be resized.
 
 ```csharp
 public class GroupingNode : HeaderedContentControl
@@ -2199,8 +2826,6 @@ public class GroupingNode : HeaderedContentControl
 ### Constructors
 
 #### GroupingNode()
-
-Initializes a new instance of the [GroupingNode](#groupingnode-class) class.
 
 ```csharp
 public GroupingNode();
@@ -2229,8 +2854,6 @@ public static DependencyProperty CanResizeProperty;
 [DependencyProperty](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyProperty)
 
 #### ContentControl
-
-Gets the [ContentControl](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ContentControl) control of this [GroupingNode](#groupingnode-class).
 
 ```csharp
 protected FrameworkElement ContentControl;
@@ -2292,8 +2915,6 @@ public static DependencyProperty HeaderBrushProperty;
 
 #### HeaderControl
 
-Gets the [HeaderedContentControl.Header](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.HeaderedContentControl.header) control of this [GroupingNode](#groupingnode-class).
-
 ```csharp
 protected FrameworkElement HeaderControl;
 ```
@@ -2354,8 +2975,6 @@ public static RoutedEvent ResizeStartedEvent;
 
 #### ResizeThumb
 
-Gets the [FrameworkElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement) used to resize this [GroupingNode](#groupingnode-class).
-
 ```csharp
 protected FrameworkElement ResizeThumb;
 ```
@@ -2368,8 +2987,6 @@ protected FrameworkElement ResizeThumb;
 
 #### ActualSize
 
-Gets or sets the actual size of this [GroupingNode](#groupingnode-class).
-
 ```csharp
 public Size ActualSize { get; set; }
 ```
@@ -2379,8 +2996,6 @@ public Size ActualSize { get; set; }
 [Size](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Size)
 
 #### CanResize
-
-Gets or sets a value that indicates whether this [GroupingNode](#groupingnode-class) can be resized.
 
 ```csharp
 public bool CanResize { get; set; }
@@ -2392,8 +3007,6 @@ public bool CanResize { get; set; }
 
 #### Container
 
-Gets the [NodifyEditor](#nodifyeditor-class) that owns this [GroupingNode.Container](#groupingnode-class#container).
-
 ```csharp
 protected ItemContainer Container { get; set; }
 ```
@@ -2403,8 +3016,6 @@ protected ItemContainer Container { get; set; }
 [ItemContainer](#itemcontainer-class)
 
 #### Editor
-
-Gets the [NodifyEditor](#nodifyeditor-class) that owns this [GroupingNode](#groupingnode-class).
 
 ```csharp
 protected NodifyEditor Editor { get; set; }
@@ -2416,8 +3027,6 @@ protected NodifyEditor Editor { get; set; }
 
 #### HeaderBrush
 
-Gets or sets the brush used for the background of the [HeaderedContentControl.Header](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.HeaderedContentControl.header) of this [GroupingNode](#groupingnode-class).
-
 ```csharp
 public Brush HeaderBrush { get; set; }
 ```
@@ -2427,8 +3036,6 @@ public Brush HeaderBrush { get; set; }
 [Brush](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Brush)
 
 #### MovementMode
-
-Gets or sets the default movement mode which can be temporarily changed by holding the [GroupingNode.SwitchMovementModeModifierKey](#groupingnode-class#switchmovementmodemodifierkey) while dragging by the header.
 
 ```csharp
 public GroupingMovementMode MovementMode { get; set; }
@@ -2440,9 +3047,6 @@ public GroupingMovementMode MovementMode { get; set; }
 
 #### ResizeCompletedCommand
 
-Invoked when the [GroupingNode.ResizeCompleted](#groupingnode-class#resizecompleted) event is not handled.
-Parameter is the [ItemContainer.ActualSize](#itemcontainer-class#actualsize) of the container.
-
 ```csharp
 public ICommand ResizeCompletedCommand { get; set; }
 ```
@@ -2453,9 +3057,6 @@ public ICommand ResizeCompletedCommand { get; set; }
 
 #### ResizeStartedCommand
 
-Invoked when the [GroupingNode.ResizeStarted](#groupingnode-class#resizestarted) event is not handled.
-Parameter is the [ItemContainer.ActualSize](#itemcontainer-class#actualsize) of the container.
-
 ```csharp
 public ICommand ResizeStartedCommand { get; set; }
 ```
@@ -2463,18 +3064,6 @@ public ICommand ResizeStartedCommand { get; set; }
 **Property Value**
 
 [ICommand](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.ICommand)
-
-#### SwitchMovementModeModifierKey
-
-Gets or sets the key that will toggle between [GroupingMovementMode](#groupingmovementmode-enum)s.
-
-```csharp
-public static ModifierKeys SwitchMovementModeModifierKey { get; set; }
-```
-
-**Property Value**
-
-[ModifierKeys](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.ModifierKeys)
 
 ### Methods
 
@@ -2488,8 +3077,6 @@ public override void OnApplyTemplate();
 
 #### ResizeCompleted
 
-Occurs when the node finished resizing.
-
 ```csharp
 public event ResizeEventHandler ResizeCompleted;
 ```
@@ -2499,8 +3086,6 @@ public event ResizeEventHandler ResizeCompleted;
 [ResizeEventHandler](#resizeeventhandler-delegate)
 
 #### ResizeStarted
-
-Occurs when the node started resizing.
 
 ```csharp
 public event ResizeEventHandler ResizeStarted;
@@ -2572,13 +3157,59 @@ public virtual void Arrange(Rect rect);
 
 **Assembly:** Nodify
 
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [ItemContainer](#itemcontainer-class)
+
+**References:** [Connector](#connector-class), [PendingConnection](#pendingconnection-class), [EditorCommands](#editorcommands-class), [ContainerDefaultState](#containerdefaultstate-class), [SelectionHelper](#selectionhelper-class), [PreviewLocationChanged](#previewlocationchanged-delegate), [NodifyEditor](#nodifyeditor-class), [GroupingNode](#groupingnode-class)
+
+The container for all the items generated by the [ItemsControl.ItemsSource](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ItemsControl.itemssource) of the [NodifyEditor](#nodifyeditor-class).
+
+```csharp
+public static class ItemContainer
+```
+
+### Properties
+
+#### CancelAction
+
+```csharp
+public static InputGesture CancelAction { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Drag
+
+```csharp
+public static InputGesture Drag { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Select
+
+```csharp
+public static InputGesture Select { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+## ItemContainer Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [DispatcherObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Threading.DispatcherObject) → [DependencyObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyObject) → [Visual](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Visual) → [UIElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement) → [FrameworkElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement) → [Control](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Control) → [ContentControl](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ContentControl) → [ItemContainer](#itemcontainer-class)
 
 **Implements:** [INodifyCanvasItem](#inodifycanvasitem-interface)
 
-**References:** [Connector](#connector-class), [NodifyEditor](#nodifyeditor-class), [GroupingNode](#groupingnode-class), [PreviewLocationChanged](#previewlocationchanged-delegate), [PendingConnection](#pendingconnection-class), [EditorCommands](#editorcommands-class), [EditorSelectingState](#editorselectingstate-class)
-
-The container for all the items generated by the [ItemsControl.ItemsSource](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ItemsControl.itemssource) of the [NodifyEditor](#nodifyeditor-class).
+**References:** [ContainerDefaultState](#containerdefaultstate-class), [ContainerDraggingState](#containerdraggingstate-class), [ContainerState](#containerstate-class), [Connector](#connector-class), [NodifyEditor](#nodifyeditor-class), [GroupingNode](#groupingnode-class), [PreviewLocationChanged](#previewlocationchanged-delegate)
 
 ```csharp
 public class ItemContainer : ContentControl, INodifyCanvasItem
@@ -2587,8 +3218,6 @@ public class ItemContainer : ContentControl, INodifyCanvasItem
 ### Constructors
 
 #### ItemContainer(NodifyEditor)
-
-Constructs an instance of an [ItemContainer](#itemcontainer-class) in the specified [NodifyEditor](#nodifyeditor-class).
 
 ```csharp
 public ItemContainer(NodifyEditor editor);
@@ -2784,8 +3413,6 @@ public static RoutedEvent UnselectedEvent;
 
 #### ActualSize
 
-Gets the actual size of this [ItemContainer](#itemcontainer-class).
-
 ```csharp
 public Size ActualSize { get; set; }
 ```
@@ -2795,8 +3422,6 @@ public Size ActualSize { get; set; }
 [Size](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Size)
 
 #### AllowDraggingCancellation
-
-Gets or sets whether cancelling a dragging operation is allowed.
 
 ```csharp
 public static bool AllowDraggingCancellation { get; set; }
@@ -2808,9 +3433,6 @@ public static bool AllowDraggingCancellation { get; set; }
 
 #### DesiredSizeForSelection
 
-Overrides the size to check against when calculating if this [ItemContainer](#itemcontainer-class) can be part of the current [NodifyEditor.SelectedArea](#nodifyeditor-class#selectedarea).
-Defaults to [UIElement.RenderSize](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement.rendersize).
-
 ```csharp
 public Size? DesiredSizeForSelection { get; set; }
 ```
@@ -2819,22 +3441,7 @@ public Size? DesiredSizeForSelection { get; set; }
 
 [Size?](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable)
 
-#### DraggableHost
-
-Gets or sets the ancestor of this container used to calculate the relative position when dragging.
-Prioritizes the NodifyEditor and defaults to this ItemContainer if not found.
-
-```csharp
-protected UIElement DraggableHost { get; set; }
-```
-
-**Property Value**
-
-[UIElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement)
-
 #### Editor
-
-The [NodifyEditor](#nodifyeditor-class) that owns this [ItemContainer](#itemcontainer-class).
 
 ```csharp
 public NodifyEditor Editor { get; set; }
@@ -2846,8 +3453,6 @@ public NodifyEditor Editor { get; set; }
 
 #### HighlightBrush
 
-Gets or sets the brush used when the [PendingConnection.IsOverElementProperty](#pendingconnection-class#isoverelementproperty) attached property is true for this [ItemContainer](#itemcontainer-class).
-
 ```csharp
 public Brush HighlightBrush { get; set; }
 ```
@@ -2857,8 +3462,6 @@ public Brush HighlightBrush { get; set; }
 [Brush](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Brush)
 
 #### IsDraggable
-
-Gets or sets whether this [ItemContainer](#itemcontainer-class) can be dragged.
 
 ```csharp
 public bool IsDraggable { get; set; }
@@ -2870,8 +3473,6 @@ public bool IsDraggable { get; set; }
 
 #### IsPreviewingLocation
 
-Gets a value indicating whether this [ItemContainer](#itemcontainer-class) is previewing a new location but didn't logically move there.
-
 ```csharp
 public bool IsPreviewingLocation { get; set; }
 ```
@@ -2881,8 +3482,6 @@ public bool IsPreviewingLocation { get; set; }
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
 
 #### IsPreviewingSelection
-
-Gets a value indicating whether this [ItemContainer](#itemcontainer-class) is about to change its [ItemContainer.IsSelected](#itemcontainer-class#isselected) state.
 
 ```csharp
 public Boolean? IsPreviewingSelection { get; set; }
@@ -2894,8 +3493,6 @@ public Boolean? IsPreviewingSelection { get; set; }
 
 #### IsSelectable
 
-Gets or sets whether this [ItemContainer](#itemcontainer-class) can be selected.
-
 ```csharp
 public bool IsSelectable { get; set; }
 ```
@@ -2905,9 +3502,6 @@ public bool IsSelectable { get; set; }
 [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
 
 #### IsSelected
-
-Gets or sets a value that indicates whether this [ItemContainer](#itemcontainer-class) is selected.
-Can only be set if [ItemContainer.IsSelectable](#itemcontainer-class#isselectable) is true.
 
 ```csharp
 public bool IsSelected { get; set; }
@@ -2919,8 +3513,6 @@ public bool IsSelected { get; set; }
 
 #### Location
 
-Gets or sets the location of this [ItemContainer](#itemcontainer-class) inside the [NodifyEditor](#nodifyeditor-class) in graph space coordinates.
-
 ```csharp
 public virtual Point Location { get; set; }
 ```
@@ -2931,8 +3523,6 @@ public virtual Point Location { get; set; }
 
 #### SelectedBrush
 
-Gets or sets the brush used when [ItemContainer.IsSelected](#itemcontainer-class#isselected) or [ItemContainer.IsPreviewingSelection](#itemcontainer-class#ispreviewingselection) is true.
-
 ```csharp
 public Brush SelectedBrush { get; set; }
 ```
@@ -2941,11 +3531,29 @@ public Brush SelectedBrush { get; set; }
 
 [Brush](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Brush)
 
+#### State
+
+```csharp
+public ContainerState State { get; set; }
+```
+
+**Property Value**
+
+[ContainerState](#containerstate-class)
+
 ### Methods
 
-#### IsSelectableInArea(Rect, Boolean)
+#### GetInitialState()
 
-Checks if area contains or intersects with this [ItemContainer](#itemcontainer-class) taking into consideration the [ItemContainer.DesiredSizeForSelection](#itemcontainer-class#desiredsizeforselection).
+```csharp
+protected virtual ContainerState GetInitialState();
+```
+
+**Returns**
+
+[ContainerState](#containerstate-class)
+
+#### IsSelectableInArea(Rect, Boolean)
 
 ```csharp
 public virtual bool IsSelectableInArea(Rect area, bool isContained);
@@ -2953,17 +3561,15 @@ public virtual bool IsSelectableInArea(Rect area, bool isContained);
 
 **Parameters**
 
-`area` [Rect](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Rect): The area to check if contains or intersects this [ItemContainer](#itemcontainer-class).
+`area` [Rect](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Rect)
 
-`isContained` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): If true will check if area contains this, otherwise will check if area intersects with this.
+`isContained` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
 
 **Returns**
 
-[Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True if area contains or intersects this [ItemContainer](#itemcontainer-class).
+[Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
 
 #### IsSelectableLocation(Point)
-
-Checks if position is selectable.
 
 ```csharp
 protected virtual bool IsSelectableLocation(Point position);
@@ -2971,15 +3577,39 @@ protected virtual bool IsSelectableLocation(Point position);
 
 **Parameters**
 
-`position` [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point): A position relative to this [ItemContainer](#itemcontainer-class).
+`position` [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point)
 
 **Returns**
 
-[Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True if position is selectable.
+[Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
+
+#### OnApplyTemplate()
+
+```csharp
+public override void OnApplyTemplate();
+```
+
+#### OnKeyDown(KeyEventArgs)
+
+```csharp
+protected override void OnKeyDown(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
+#### OnKeyUp(KeyEventArgs)
+
+```csharp
+protected override void OnKeyUp(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
 
 #### OnLocationChanged()
-
-Raises the [ItemContainer.LocationChangedEvent](#itemcontainer-class#locationchangedevent) and sets [ItemContainer.IsPreviewingLocation](#itemcontainer-class#ispreviewinglocation) to false.
 
 ```csharp
 protected void OnLocationChanged();
@@ -2995,20 +3625,10 @@ protected override void OnLostMouseCapture(MouseEventArgs e);
 
 `e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
 
-#### OnMouseLeftButtonDown(MouseButtonEventArgs)
+#### OnMouseDown(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e);
-```
-
-**Parameters**
-
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-#### OnMouseLeftButtonUp(MouseButtonEventArgs)
-
-```csharp
-protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e);
+protected override void OnMouseDown(MouseButtonEventArgs e);
 ```
 
 **Parameters**
@@ -3025,25 +3645,25 @@ protected override void OnMouseMove(MouseEventArgs e);
 
 `e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
 
-#### OnMouseRightButtonDown(MouseButtonEventArgs)
+#### OnMouseUp(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseRightButtonDown(MouseButtonEventArgs e);
+protected override void OnMouseUp(MouseButtonEventArgs e);
 ```
 
 **Parameters**
 
 `e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
 
-#### OnMouseRightButtonUp(MouseButtonEventArgs)
+#### OnMouseWheel(MouseWheelEventArgs)
 
 ```csharp
-protected override void OnMouseRightButtonUp(MouseButtonEventArgs e);
+protected override void OnMouseWheel(MouseWheelEventArgs e);
 ```
 
 **Parameters**
 
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+`e` [MouseWheelEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseWheelEventArgs)
 
 #### OnRenderSizeChanged(SizeChangedInfo)
 
@@ -3057,22 +3677,39 @@ protected override void OnRenderSizeChanged(SizeChangedInfo sizeInfo);
 
 #### OnSelectedChanged(Boolean)
 
-Raises the [ItemContainer.SelectedEvent](#itemcontainer-class#selectedevent) or [ItemContainer.UnselectedEvent](#itemcontainer-class#unselectedevent) based on newValue.
-Called when the [ItemContainer.IsSelected](#itemcontainer-class#isselected) value is changed.
-
 ```csharp
 protected void OnSelectedChanged(bool newValue);
 ```
 
 **Parameters**
 
-`newValue` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True if selected, false otherwise.
+`newValue` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
+
+#### PopAllStates()
+
+```csharp
+public void PopAllStates();
+```
+
+#### PopState()
+
+```csharp
+public void PopState();
+```
+
+#### PushState(ContainerState)
+
+```csharp
+public void PushState(ContainerState state);
+```
+
+**Parameters**
+
+`state` [ContainerState](#containerstate-class)
 
 ### Events
 
 #### DragCompleted
-
-Occurs when this [ItemContainer](#itemcontainer-class) completed the drag operation.
 
 ```csharp
 public event DragCompletedEventHandler DragCompleted;
@@ -3084,8 +3721,6 @@ public event DragCompletedEventHandler DragCompleted;
 
 #### DragDelta
 
-Occurs when this [ItemContainer](#itemcontainer-class) is being dragged.
-
 ```csharp
 public event DragDeltaEventHandler DragDelta;
 ```
@@ -3095,8 +3730,6 @@ public event DragDeltaEventHandler DragDelta;
 [DragDeltaEventHandler](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Primitives.DragDeltaEventHandler)
 
 #### DragStarted
-
-Occurs when this [ItemContainer](#itemcontainer-class) is the instigator of a drag operation.
 
 ```csharp
 public event DragStartedEventHandler DragStarted;
@@ -3108,8 +3741,6 @@ public event DragStartedEventHandler DragStarted;
 
 #### LocationChanged
 
-Occurs when the [ItemContainer.Location](#itemcontainer-class#location) of this [ItemContainer](#itemcontainer-class) is changed.
-
 ```csharp
 public event RoutedEventHandler LocationChanged;
 ```
@@ -3119,8 +3750,6 @@ public event RoutedEventHandler LocationChanged;
 [RoutedEventHandler](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.RoutedEventHandler)
 
 #### PreviewLocationChanged
-
-Occurs when the [ItemContainer](#itemcontainer-class) is previewing a new location.
 
 ```csharp
 public event PreviewLocationChanged PreviewLocationChanged;
@@ -3132,8 +3761,6 @@ public event PreviewLocationChanged PreviewLocationChanged;
 
 #### Selected
 
-Occurs when this [ItemContainer](#itemcontainer-class) is selected.
-
 ```csharp
 public event RoutedEventHandler Selected;
 ```
@@ -3143,8 +3770,6 @@ public event RoutedEventHandler Selected;
 [RoutedEventHandler](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.RoutedEventHandler)
 
 #### Unselected
-
-Occurs when this [ItemContainer](#itemcontainer-class) is unselected.
 
 ```csharp
 public event RoutedEventHandler Unselected;
@@ -3239,6 +3864,92 @@ protected override ValueTuple<Point, Point> GetArrowHeadPoints(Point source, Poi
 **Returns**
 
 [ValueTuple<Point, Point>](https://docs.microsoft.com/en-us/dotnet/api/System.ValueTuple)
+
+## Match Enum
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [ValueType](https://docs.microsoft.com/en-us/dotnet/api/System.ValueType) → [Enum](https://docs.microsoft.com/en-us/dotnet/api/System.Enum) → [Match](#match-enum)
+
+**References:** [MultiGesture](#multigesture-class)
+
+```csharp
+public enum Match
+```
+
+### Fields
+
+#### All
+
+```csharp
+public const Match All = 1;
+```
+
+**Field Value**
+
+[Match](#match-enum)
+
+#### Any
+
+```csharp
+public const Match Any = 0;
+```
+
+**Field Value**
+
+[Match](#match-enum)
+
+## MultiGesture Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture) → [MultiGesture](#multigesture-class)
+
+**References:** [Match](#match-enum)
+
+Combines multiple input gestures.
+
+```csharp
+public class MultiGesture : InputGesture
+```
+
+### Constructors
+
+#### MultiGesture(Match, InputGesture[])
+
+Constructs an instance of a [MultiGesture](#multigesture-class).
+
+```csharp
+public MultiGesture(Match match, InputGesture[] gestures);
+```
+
+**Parameters**
+
+`match` [Match](#match-enum): The matching strategy.
+
+`gestures` [InputGesture[]](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture[]): The input gestures.
+
+### Methods
+
+#### Matches(Object, InputEventArgs)
+
+```csharp
+public override bool Matches(object targetElement, InputEventArgs inputEventArgs);
+```
+
+**Parameters**
+
+`targetElement` [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object)
+
+`inputEventArgs` [InputEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputEventArgs)
+
+**Returns**
+
+[Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean)
 
 ## Node Class
 
@@ -3764,7 +4475,7 @@ protected override Size MeasureOverride(Size constraint);
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [DispatcherObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Threading.DispatcherObject) → [DependencyObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyObject) → [Visual](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Visual) → [UIElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement) → [FrameworkElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement) → [Control](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Control) → [ItemsControl](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ItemsControl) → [Selector](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Primitives.Selector) → [MultiSelector](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Primitives.MultiSelector) → [NodifyEditor](#nodifyeditor-class)
 
-**References:** [EditorState](#editorstate-class), [EditorDefaultState](#editordefaultstate-class), [EditorSelectingState](#editorselectingstate-class), [EditorPanningState](#editorpanningstate-class), [SelectionHelper](#selectionhelper-class), [Connector](#connector-class), [ItemContainer](#itemcontainer-class), [PendingConnection](#pendingconnection-class), [GroupingNode](#groupingnode-class), [DecoratorContainer](#decoratorcontainer-class), [EditorCommands](#editorcommands-class), [Connection](#connection-class), [BaseConnection](#baseconnection-class)
+**References:** [ContainerState](#containerstate-class), [EditorDefaultState](#editordefaultstate-class), [EditorPanningState](#editorpanningstate-class), [EditorSelectingState](#editorselectingstate-class), [EditorState](#editorstate-class), [SelectionHelper](#selectionhelper-class), [ItemContainer](#itemcontainer-class), [PendingConnection](#pendingconnection-class), [GroupingNode](#groupingnode-class), [Connector](#connector-class), [DecoratorContainer](#decoratorcontainer-class), [EditorCommands](#editorcommands-class), [EditorGestures](#editorgestures-class), [ItemContainer](#itemcontainer-class), [GroupingNode](#groupingnode-class), [Connection](#connection-class), [BaseConnection](#baseconnection-class)
 
 Groups [ItemContainer](#itemcontainer-class)s and [Connection](#connection-class)s in an area that you can drag, zoom and select.
 
@@ -3863,29 +4574,6 @@ public static DependencyProperty ConnectionTemplateProperty;
 **Field Value**
 
 [DependencyProperty](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyProperty)
-
-#### CurrentMousePosition
-
-Gets where the mouse cursor is right now relative to the [NodifyEditor](#nodifyeditor-class).
-Check [NodifyEditor.MouseLocation](#nodifyeditor-class#mouselocation) for a transformed position.
-
-```csharp
-protected Point CurrentMousePosition;
-```
-
-**Field Value**
-
-[Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point)
-
-#### CurrentState
-
-```csharp
-protected EditorState CurrentState;
-```
-
-**Field Value**
-
-[EditorState](#editorstate-class)
 
 #### DecoratorContainerStyleProperty
 
@@ -4006,19 +4694,6 @@ public static DependencyProperty GridCellSizeProperty;
 **Field Value**
 
 [DependencyProperty](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyProperty)
-
-#### InitialMousePosition
-
-Gets where the mouse cursor was relative to the [NodifyEditor](#nodifyeditor-class) when a mouse button event occurred.
-Check [NodifyEditor.MouseLocation](#nodifyeditor-class#mouselocation) for a transformed position.
-
-```csharp
-protected Point InitialMousePosition;
-```
-
-**Field Value**
-
-[Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point)
 
 #### IsPanningProperty
 
@@ -4149,19 +4824,6 @@ public static DependencyProperty PendingConnectionTemplateProperty;
 **Field Value**
 
 [DependencyProperty](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyProperty)
-
-#### PreviousMousePosition
-
-Gets where the mouse cursor was the previous time it moved relative to the [NodifyEditor](#nodifyeditor-class).
-Check [NodifyEditor.MouseLocation](#nodifyeditor-class#mouselocation) for a transformed position.
-
-```csharp
-protected Point PreviousMousePosition;
-```
-
-**Field Value**
-
-[Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point)
 
 #### RemoveConnectionCommandProperty
 
@@ -4352,8 +5014,8 @@ public double BringIntoViewSpeed { get; set; }
 #### ConnectionCompletedCommand
 
 Invoked when the [PendingConnection](#pendingconnection-class) is completed.
-Use [PendingConnection.CompletedCommand](#pendingconnection-class#completedcommand) if you want to control the visibility of the connection from the viewmodel.
-Parameter is System.Tuple`2 where System.Tuple`2.Item1 is the [PendingConnection.Source](#pendingconnection-class#source) and System.Tuple`2.Item2 is [PendingConnection.Target](#pendingconnection-class#target).
+            Use [PendingConnection.CompletedCommand](#pendingconnection-class#completedcommand) if you want to control the visibility of the connection from the viewmodel.
+            Parameter is System.Tuple`2 where System.Tuple`2.Item1 is the [PendingConnection.Source](#pendingconnection-class#source) and System.Tuple`2.Item2 is [PendingConnection.Target](#pendingconnection-class#target).
 
 ```csharp
 public ICommand ConnectionCompletedCommand { get; set; }
@@ -4378,8 +5040,8 @@ public IEnumerable Connections { get; set; }
 #### ConnectionStartedCommand
 
 Invoked when the [PendingConnection](#pendingconnection-class) is completed.
-Use [PendingConnection.StartedCommand](#pendingconnection-class#startedcommand) if you want to control the visibility of the connection from the viewmodel.
-Parameter is [PendingConnection.Source](#pendingconnection-class#source).
+            Use [PendingConnection.StartedCommand](#pendingconnection-class#startedcommand) if you want to control the visibility of the connection from the viewmodel.
+            Parameter is [PendingConnection.Source](#pendingconnection-class#source).
 
 ```csharp
 public ICommand ConnectionStartedCommand { get; set; }
@@ -4488,8 +5150,8 @@ public bool DisableZooming { get; set; }
 #### DisconnectConnectorCommand
 
 Invoked when the [Connector.Disconnect](#connector-class#disconnect) event is raised.
-Can also be handled at the [Connector](#connector-class) level using the [Connector.DisconnectCommand](#connector-class#disconnectcommand) command.
-Parameter is the [Connector](#connector-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext).
+            Can also be handled at the [Connector](#connector-class) level using the [Connector.DisconnectCommand](#connector-class#disconnectcommand) command.
+            Parameter is the [Connector](#connector-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext).
 
 ```csharp
 public ICommand DisconnectConnectorCommand { get; set; }
@@ -4514,7 +5176,7 @@ public bool DisplayConnectionsOnTop { get; set; }
 #### EnableRealtimeSelection
 
 Enables selecting and deselecting items while the [NodifyEditor.SelectedArea](#nodifyeditor-class#selectedarea) changes.
-Disable for maximum performance when hundreds of items are generated.
+            Disable for maximum performance when hundreds of items are generated.
 
 ```csharp
 public bool EnableRealtimeSelection { get; set; }
@@ -4575,7 +5237,7 @@ public uint GridCellSize { get; set; }
 #### HandleRightClickAfterPanningThreshold
 
 Gets or sets the maximum number of pixels allowed to move the mouse before cancelling the mouse event.
-Useful for System.Windows.Controls.ContextMenus to appear if mouse only moved a bit or not at all.
+            Useful for System.Windows.Controls.ContextMenus to appear if mouse only moved a bit or not at all.
 
 ```csharp
 public static double HandleRightClickAfterPanningThreshold { get; set; }
@@ -4602,7 +5264,7 @@ public bool IsBulkUpdatingItems { get; protected set; }
 Gets a value that indicates whether a panning operation is in progress.
 
 ```csharp
-public bool IsPanning { get; protected set; }
+public bool IsPanning { get; set; }
 ```
 
 **Property Value**
@@ -4683,6 +5345,8 @@ public double MinViewportZoom { get; set; }
 
 #### MouseLocation
 
+Gets the current mouse location in graph space coordinates (relative to the [NodifyEditor.ItemsHost](#nodifyeditor-class#itemshost)).
+
 ```csharp
 public Point MouseLocation { get; protected set; }
 ```
@@ -4706,7 +5370,7 @@ public static uint OptimizeRenderingMinimumContainers { get; set; }
 #### OptimizeRenderingZoomOutPercent
 
 Gets or sets the minimum zoom out percent needed to start optimizing the rendering for [ItemContainer](#itemcontainer-class)s.
-Value is between 0 and 1.
+            Value is between 0 and 1.
 
 ```csharp
 public static double OptimizeRenderingZoomOutPercent { get; set; }
@@ -4743,8 +5407,8 @@ public DataTemplate PendingConnectionTemplate { get; set; }
 #### RemoveConnectionCommand
 
 Invoked when the [BaseConnection.Disconnect](#baseconnection-class#disconnect) event is raised.
-Can also be handled at the [BaseConnection](#baseconnection-class) level using the [BaseConnection.DisconnectCommand](#baseconnection-class#disconnectcommand) command.
-Parameter is the [BaseConnection](#baseconnection-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext).
+            Can also be handled at the [BaseConnection](#baseconnection-class) level using the [BaseConnection.DisconnectCommand](#baseconnection-class#disconnectcommand) command.
+            Parameter is the [BaseConnection](#baseconnection-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext).
 
 ```csharp
 public ICommand RemoveConnectionCommand { get; set; }
@@ -4789,6 +5453,18 @@ public Style SelectionRectangleStyle { get; set; }
 **Property Value**
 
 [Style](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Style)
+
+#### State
+
+The current state of the editor.
+
+```csharp
+public EditorState State { get; set; }
+```
+
+**Property Value**
+
+[EditorState](#editorstate-class)
 
 #### ViewportLocation
 
@@ -4878,15 +5554,17 @@ protected override DependencyObject GetContainerForItemOverride();
 
 [DependencyObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyObject)
 
-#### GetDefaultState()
+#### GetInitialState()
+
+Creates the initial state of the editor.
 
 ```csharp
-protected virtual EditorState GetDefaultState();
+protected virtual EditorState GetInitialState();
 ```
 
 **Returns**
 
-[EditorState](#editorstate-class)
+[EditorState](#editorstate-class): The initial state.
 
 #### InvertSelection(Rect, Boolean)
 
@@ -4900,7 +5578,7 @@ public void InvertSelection(Rect area, bool fit = false);
 
 `area` [Rect](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Rect): The area to look for [ItemContainer](#itemcontainer-class)s.
 
-`fit` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True to check if the area contains the [ItemContainer](#itemcontainer-class). False to check if area intersects the [ItemContainer](#itemcontainer-class).
+`fit` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True to check if the area contains the [ItemContainer](#itemcontainer-class).  False to check if area intersects the [ItemContainer](#itemcontainer-class).
 
 #### IsItemItsOwnContainerOverride(Object)
 
@@ -4934,6 +5612,26 @@ protected virtual void OnDisableAutoPanningChanged(bool shouldDisable);
 
 `shouldDisable` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): Whether to enable or disable auto panning.
 
+#### OnKeyDown(KeyEventArgs)
+
+```csharp
+protected override void OnKeyDown(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
+#### OnKeyUp(KeyEventArgs)
+
+```csharp
+protected override void OnKeyUp(KeyEventArgs e);
+```
+
+**Parameters**
+
+`e` [KeyEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.KeyEventArgs)
+
 #### OnLostMouseCapture(MouseEventArgs)
 
 ```csharp
@@ -4954,16 +5652,6 @@ protected override void OnMouseDown(MouseButtonEventArgs e);
 
 `e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
 
-#### OnMouseLeftButtonUp(MouseButtonEventArgs)
-
-```csharp
-protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e);
-```
-
-**Parameters**
-
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
 #### OnMouseMove(MouseEventArgs)
 
 ```csharp
@@ -4974,20 +5662,10 @@ protected override void OnMouseMove(MouseEventArgs e);
 
 `e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
 
-#### OnMouseRightButtonDown(MouseButtonEventArgs)
+#### OnMouseUp(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseRightButtonDown(MouseButtonEventArgs e);
-```
-
-**Parameters**
-
-`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
-
-#### OnMouseRightButtonUp(MouseButtonEventArgs)
-
-```csharp
-protected override void OnMouseRightButtonUp(MouseButtonEventArgs e);
+protected override void OnMouseUp(MouseButtonEventArgs e);
 ```
 
 **Parameters**
@@ -5027,11 +5705,39 @@ protected override void OnSelectionChanged(SelectionChangedEventArgs e);
 #### OnViewportUpdated()
 
 Updates the [NodifyEditor.ViewportSize](#nodifyeditor-class#viewportsize) and raises the [NodifyEditor.ViewportUpdatedEvent](#nodifyeditor-class#viewportupdatedevent).
-Called when the [UIElement.RenderSize](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement.rendersize) or [NodifyEditor.ViewportZoom](#nodifyeditor-class#viewportzoom) is changed.
+            Called when the [UIElement.RenderSize](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement.rendersize) or [NodifyEditor.ViewportZoom](#nodifyeditor-class#viewportzoom) is changed.
 
 ```csharp
 protected void OnViewportUpdated();
 ```
+
+#### PopAllStates()
+
+Pops all states from the editor.
+
+```csharp
+public void PopAllStates();
+```
+
+#### PopState()
+
+Pops the current [NodifyEditor.State](#nodifyeditor-class#state) from the stack.
+
+```csharp
+public void PopState();
+```
+
+#### PushState(EditorState)
+
+Pushes the given state to the stack.
+
+```csharp
+public void PushState(EditorState state);
+```
+
+**Parameters**
+
+`state` [EditorState](#editorstate-class): The new state of the editor.
 
 #### SelectArea(Rect, Boolean, Boolean)
 
@@ -5045,9 +5751,9 @@ public void SelectArea(Rect area, bool append = false, bool fit = false);
 
 `area` [Rect](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Rect): The area to look for [ItemContainer](#itemcontainer-class)s.
 
-`append` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): If true, it will add to the existing
+`append` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): If true, it will add to the existing selection.
 
-`fit` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True to check if the area contains the [ItemContainer](#itemcontainer-class). False to check if area intersects the [ItemContainer](#itemcontainer-class).
+`fit` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True to check if the area contains the [ItemContainer](#itemcontainer-class).  False to check if area intersects the [ItemContainer](#itemcontainer-class).
 
 #### UnselectArea(Rect, Boolean)
 
@@ -5061,7 +5767,7 @@ public void UnselectArea(Rect area, bool fit = false);
 
 `area` [Rect](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Rect): The area to look for [ItemContainer](#itemcontainer-class)s.
 
-`fit` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True to check if the area contains the [ItemContainer](#itemcontainer-class). False to check if area intersects the [ItemContainer](#itemcontainer-class).
+`fit` [Boolean](https://docs.microsoft.com/en-us/dotnet/api/System.Boolean): True to check if the area contains the [ItemContainer](#itemcontainer-class).  False to check if area intersects the [ItemContainer](#itemcontainer-class).
 
 #### ZoomAtPosition(Double, Point)
 
@@ -5312,8 +6018,8 @@ public bool AllowOnlyConnectors { get; set; }
 #### CompletedCommand
 
 Gets or sets the command to invoke when the pending connection is completed.
-Will not be invoked if [NodifyEditor.ConnectionCompletedCommand](#nodifyeditor-class#connectioncompletedcommand) is used.
-[PendingConnection.Target](#pendingconnection-class#target) will be set to the desired [Connector](#connector-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext) and will also be the command's parameter.
+            Will not be invoked if [NodifyEditor.ConnectionCompletedCommand](#nodifyeditor-class#connectioncompletedcommand) is used.
+            [PendingConnection.Target](#pendingconnection-class#target) will be set to the desired [Connector](#connector-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext) and will also be the command's parameter.
 
 ```csharp
 public ICommand CompletedCommand { get; set; }
@@ -5422,8 +6128,8 @@ public Point SourceAnchor { get; set; }
 #### StartedCommand
 
 Gets or sets the command to invoke when the pending connection is started.
-Will not be invoked if [NodifyEditor.ConnectionStartedCommand](#nodifyeditor-class#connectionstartedcommand) is used.
-[PendingConnection.Source](#pendingconnection-class#source) will be set to the [Connector](#connector-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext) that started this connection and will also be the command's parameter.
+            Will not be invoked if [NodifyEditor.ConnectionStartedCommand](#nodifyeditor-class#connectionstartedcommand) is used.
+            [PendingConnection.Source](#pendingconnection-class#source) will be set to the [Connector](#connector-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext) that started this connection and will also be the command's parameter.
 
 ```csharp
 public ICommand StartedCommand { get; set; }
@@ -5472,7 +6178,7 @@ public double StrokeThickness { get; set; }
 #### Target
 
 Gets or sets the [Connector](#connector-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext) (or potentially an [ItemContainer](#itemcontainer-class)'s [FrameworkElement.DataContext](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement.datacontext) if [PendingConnection.AllowOnlyConnectors](#pendingconnection-class#allowonlyconnectors) is false) that the [PendingConnection.Source](#pendingconnection-class#source) can connect to.
-Only set when the connection is completed (see [PendingConnection.CompletedCommand](#pendingconnection-class#completedcommand)).
+            Only set when the connection is completed (see [PendingConnection.CompletedCommand](#pendingconnection-class#completedcommand)).
 
 ```csharp
 public object Target { get; set; }
@@ -5712,7 +6418,7 @@ public delegate void PendingConnectionEventHandler(object sender, PendingConnect
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [Delegate](https://docs.microsoft.com/en-us/dotnet/api/System.Delegate) → [MulticastDelegate](https://docs.microsoft.com/en-us/dotnet/api/System.MulticastDelegate) → [PreviewLocationChanged](#previewlocationchanged-delegate)
 
-**References:** [ItemContainer](#itemcontainer-class)
+**References:** [ItemContainer](#itemcontainer-class), [ItemContainer](#itemcontainer-class)
 
 Delegate used to notify when an [ItemContainer](#itemcontainer-class) is previewing a new location.
 
@@ -5818,6 +6524,60 @@ public delegate void ResizeEventHandler(object sender, ResizeEventArgs e);
 
 `e` [ResizeEventArgs](#resizeeventargs-class): The event data.
 
+## Selection Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [Selection](#selection-class)
+
+```csharp
+public static class Selection
+```
+
+### Properties
+
+#### Append
+
+```csharp
+public static InputGesture Append { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Invert
+
+```csharp
+public static InputGesture Invert { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Remove
+
+```csharp
+public static InputGesture Remove { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
+#### Replace
+
+```csharp
+public static InputGesture Replace { get; set; }
+```
+
+**Property Value**
+
+[InputGesture](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.InputGesture)
+
 ## SelectionHelper Class
 
 **Namespace:** Nodify
@@ -5826,7 +6586,9 @@ public delegate void ResizeEventHandler(object sender, ResizeEventArgs e);
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [SelectionHelper](#selectionhelper-class)
 
-**References:** [EditorSelectingState](#editorselectingstate-class), [NodifyEditor](#nodifyeditor-class)
+**References:** [EditorSelectingState](#editorselectingstate-class), [NodifyEditor](#nodifyeditor-class), [SelectionType](#selectiontype-enum), [ItemContainer](#itemcontainer-class)
+
+Helps with selecting [ItemContainer](#itemcontainer-class)s and updating the [NodifyEditor.SelectedArea](#nodifyeditor-class#selectedarea) and [NodifyEditor.IsSelecting](#nodifyeditor-class#isselecting) properties.
 
 ```csharp
 public sealed class SelectionHelper
@@ -5836,35 +6598,43 @@ public sealed class SelectionHelper
 
 #### SelectionHelper(NodifyEditor)
 
+Constructs a new instance of a [SelectionHelper](#selectionhelper-class).
+
 ```csharp
 public SelectionHelper(NodifyEditor host);
 ```
 
 **Parameters**
 
-`host` [NodifyEditor](#nodifyeditor-class)
+`host` [NodifyEditor](#nodifyeditor-class): The editor to select items from.
 
 ### Methods
 
 #### End()
 
+Commits the current selection to the editor.
+
 ```csharp
 public void End();
 ```
 
-#### Start(Point, SelectionType?)
+#### Start(Point, SelectionType)
+
+Attempts to start a new selection.
 
 ```csharp
-public void Start(Point location, SelectionType? selectionType = null);
+public void Start(Point location, SelectionType selectionType);
 ```
 
 **Parameters**
 
-`location` [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point)
+`location` [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point): The location inside the graph.
 
-`selectionType` [SelectionType?](https://docs.microsoft.com/en-us/dotnet/api/System.Nullable)
+`selectionType` [SelectionType](#selectiontype-enum): The type of selection.
 
 #### Update(Point)
+
+Update the end location for the selection.
 
 ```csharp
 public void Update(Point endLocation);
@@ -5872,7 +6642,7 @@ public void Update(Point endLocation);
 
 **Parameters**
 
-`endLocation` [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point)
+`endLocation` [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point): An absolute location.
 
 ## SelectionType Enum
 
@@ -5881,6 +6651,8 @@ public void Update(Point endLocation);
 **Assembly:** Nodify
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [ValueType](https://docs.microsoft.com/en-us/dotnet/api/System.ValueType) → [Enum](https://docs.microsoft.com/en-us/dotnet/api/System.Enum) → [SelectionType](#selectiontype-enum)
+
+**References:** [EditorSelectingState](#editorselectingstate-class), [SelectionHelper](#selectionhelper-class)
 
 ```csharp
 public enum SelectionType
@@ -6074,20 +6846,20 @@ public Brush HighlightBrush { get; set; }
 public override void OnApplyTemplate();
 ```
 
-#### OnMouseLeftButtonDown(MouseButtonEventArgs)
+#### OnMouseDown(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e);
+protected override void OnMouseDown(MouseButtonEventArgs e);
 ```
 
 **Parameters**
 
 `e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
 
-#### OnMouseLeftButtonUp(MouseButtonEventArgs)
+#### OnMouseUp(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e);
+protected override void OnMouseUp(MouseButtonEventArgs e);
 ```
 
 **Parameters**
