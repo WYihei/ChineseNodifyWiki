@@ -16,3 +16,9 @@ A: No.
 #### Q: Is there a non-MVVM approach to adding nodes and connections?
 
 A: No.
+
+***
+
+#### Q: Can I change the mouse/key bindings?
+
+A: Yes! You can configure the [editor gestures](https://github.com/miroiu/nodify/blob/master/Nodify/EditorGestures.cs) to your liking.
