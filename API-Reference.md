@@ -82,7 +82,7 @@ public const Alignment Top = 0;
 
 **Derived:** [LineConnection](#lineconnection-class), [Connection](#connection-class)
 
-**References:** [ConnectionOffsetMode](#connectionoffsetmode-enum), [ConnectionDirection](#connectiondirection-enum), [ConnectionEventHandler](#connectioneventhandler-delegate), [LineConnection](#lineconnection-class), [ConnectionEventArgs](#connectioneventargs-class), [NodifyEditor](#nodifyeditor-class)
+**References:** [ConnectionEventHandler](#connectioneventhandler-delegate), [ConnectionOffsetMode](#connectionoffsetmode-enum), [ConnectionDirection](#connectiondirection-enum), [LineConnection](#lineconnection-class), [ConnectionEventArgs](#connectioneventargs-class), [NodifyEditor](#nodifyeditor-class)
 
 Represents the base class for shapes that are drawn from a [BaseConnection.Source](#baseconnection-class#source) point to a [BaseConnection.Target](#baseconnection-class#target) point.
 
@@ -1697,6 +1697,408 @@ public static RoutedUICommand ZoomOut { get; set; }
 
 [RoutedUICommand](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.RoutedUICommand)
 
+## EditorDefaultState Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [EditorState](#editorstate-class) → [EditorDefaultState](#editordefaultstate-class)
+
+**References:** [NodifyEditor](#nodifyeditor-class), [EditorState](#editorstate-class)
+
+```csharp
+public class EditorDefaultState : EditorState
+```
+
+### Constructors
+
+#### EditorDefaultState(NodifyEditor)
+
+```csharp
+public EditorDefaultState(NodifyEditor editor);
+```
+
+**Parameters**
+
+`editor` [NodifyEditor](#nodifyeditor-class)
+
+### Methods
+
+#### HandleMouseButtonDown(MouseButtonEventArgs)
+
+```csharp
+public override EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+## EditorPanningState Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [EditorState](#editorstate-class) → [EditorPanningState](#editorpanningstate-class)
+
+**References:** [NodifyEditor](#nodifyeditor-class), [EditorState](#editorstate-class)
+
+```csharp
+public class EditorPanningState : EditorState
+```
+
+### Constructors
+
+#### EditorPanningState(NodifyEditor)
+
+```csharp
+public EditorPanningState(NodifyEditor editor);
+```
+
+**Parameters**
+
+`editor` [NodifyEditor](#nodifyeditor-class)
+
+### Methods
+
+#### HandleMouseButtonDown(MouseButtonEventArgs)
+
+```csharp
+public override EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+## EditorSelectingState Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [EditorState](#editorstate-class) → [EditorSelectingState](#editorselectingstate-class)
+
+**References:** [NodifyEditor](#nodifyeditor-class), [EditorState](#editorstate-class), [SelectionHelper](#selectionhelper-class), [ItemContainer](#itemcontainer-class)
+
+[NodifyEditor](#nodifyeditor-class) selecting state.
+
+```csharp
+public class EditorSelectingState : EditorState
+```
+
+### Constructors
+
+#### EditorSelectingState(NodifyEditor)
+
+```csharp
+public EditorSelectingState(NodifyEditor editor);
+```
+
+**Parameters**
+
+`editor` [NodifyEditor](#nodifyeditor-class)
+
+### Properties
+
+#### Selection
+
+Helps with selecting [ItemContainer](#itemcontainer-class)s and updating the [NodifyEditor.SelectedArea](#nodifyeditor-class#selectedarea) and [NodifyEditor.IsSelecting](#nodifyeditor-class#isselecting) properties.
+
+```csharp
+protected SelectionHelper Selection { get; set; }
+```
+
+**Property Value**
+
+[SelectionHelper](#selectionhelper-class)
+
+### Methods
+
+#### Exit()
+
+```csharp
+public override void Exit();
+```
+
+#### HandleMouseButtonDown(MouseButtonEventArgs)
+
+```csharp
+public override EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+#### HandleMouseButtonUp(MouseButtonEventArgs)
+
+```csharp
+public override EditorState HandleMouseButtonUp(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+#### HandleMouseMove(MouseEventArgs)
+
+```csharp
+public override EditorState HandleMouseMove(MouseEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+## EditorState Class
+
+**Namespace:** Nodify
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [EditorState](#editorstate-class)
+
+**Derived:** [EditorDefaultState](#editordefaultstate-class), [EditorSelectingState](#editorselectingstate-class), [EditorPanningState](#editorpanningstate-class)
+
+**References:** [NodifyEditor](#nodifyeditor-class), [EditorDefaultState](#editordefaultstate-class), [EditorSelectingState](#editorselectingstate-class), [EditorPanningState](#editorpanningstate-class)
+
+```csharp
+public abstract class EditorState
+```
+
+### Constructors
+
+#### EditorState(NodifyEditor)
+
+```csharp
+public EditorState(NodifyEditor editor);
+```
+
+**Parameters**
+
+`editor` [NodifyEditor](#nodifyeditor-class)
+
+### Properties
+
+#### Editor
+
+```csharp
+protected NodifyEditor Editor { get; set; }
+```
+
+**Property Value**
+
+[NodifyEditor](#nodifyeditor-class)
+
+### Methods
+
+#### Enter()
+
+```csharp
+public virtual void Enter();
+```
+
+#### Exit()
+
+```csharp
+public virtual void Exit();
+```
+
+#### HandleMouseButton(MouseButtonEventArgs)
+
+```csharp
+public EditorState HandleMouseButton(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+#### HandleMouseButtonDown(MouseButtonEventArgs)
+
+```csharp
+public virtual EditorState HandleMouseButtonDown(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+#### HandleMouseButtonUp(MouseButtonEventArgs)
+
+```csharp
+public virtual EditorState HandleMouseButtonUp(MouseButtonEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseButtonEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseButtonEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+#### HandleMouseMove(MouseEventArgs)
+
+```csharp
+public virtual EditorState HandleMouseMove(MouseEventArgs e);
+```
+
+**Parameters**
+
+`e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
+## GeneratedInternalTypeHelper Class
+
+**Namespace:** XamlGeneratedNamespace
+
+**Assembly:** Nodify
+
+**Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [InternalTypeHelper](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Markup.InternalTypeHelper) → [GeneratedInternalTypeHelper](#generatedinternaltypehelper-class)
+
+GeneratedInternalTypeHelper
+
+```csharp
+public sealed class GeneratedInternalTypeHelper : InternalTypeHelper
+```
+
+### Constructors
+
+#### GeneratedInternalTypeHelper()
+
+```csharp
+public GeneratedInternalTypeHelper();
+```
+
+### Methods
+
+#### AddEventHandler(EventInfo, Object, Delegate)
+
+AddEventHandler
+
+```csharp
+protected override void AddEventHandler(EventInfo eventInfo, object target, Delegate handler);
+```
+
+**Parameters**
+
+`eventInfo` [EventInfo](https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.EventInfo)
+
+`target` [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object)
+
+`handler` [Delegate](https://docs.microsoft.com/en-us/dotnet/api/System.Delegate)
+
+#### CreateDelegate(Type, Object, String)
+
+CreateDelegate
+
+```csharp
+protected override Delegate CreateDelegate(Type delegateType, object target, string handler);
+```
+
+**Parameters**
+
+`delegateType` [Type](https://docs.microsoft.com/en-us/dotnet/api/System.Type)
+
+`target` [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object)
+
+`handler` [String](https://docs.microsoft.com/en-us/dotnet/api/System.String)
+
+**Returns**
+
+[Delegate](https://docs.microsoft.com/en-us/dotnet/api/System.Delegate)
+
+#### CreateInstance(Type, CultureInfo)
+
+CreateInstance
+
+```csharp
+protected override object CreateInstance(Type type, CultureInfo culture);
+```
+
+**Parameters**
+
+`type` [Type](https://docs.microsoft.com/en-us/dotnet/api/System.Type)
+
+`culture` [CultureInfo](https://docs.microsoft.com/en-us/dotnet/api/System.Globalization.CultureInfo)
+
+**Returns**
+
+[Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object)
+
+#### GetPropertyValue(PropertyInfo, Object, CultureInfo)
+
+GetPropertyValue
+
+```csharp
+protected override object GetPropertyValue(PropertyInfo propertyInfo, object target, CultureInfo culture);
+```
+
+**Parameters**
+
+`propertyInfo` [PropertyInfo](https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.PropertyInfo)
+
+`target` [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object)
+
+`culture` [CultureInfo](https://docs.microsoft.com/en-us/dotnet/api/System.Globalization.CultureInfo)
+
+**Returns**
+
+[Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object)
+
+#### SetPropertyValue(PropertyInfo, Object, Object, CultureInfo)
+
+SetPropertyValue
+
+```csharp
+protected override void SetPropertyValue(PropertyInfo propertyInfo, object target, object value, CultureInfo culture);
+```
+
+**Parameters**
+
+`propertyInfo` [PropertyInfo](https://docs.microsoft.com/en-us/dotnet/api/System.Reflection.PropertyInfo)
+
+`target` [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object)
+
+`value` [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object)
+
+`culture` [CultureInfo](https://docs.microsoft.com/en-us/dotnet/api/System.Globalization.CultureInfo)
+
 ## GroupingMovementMode Enum
 
 **Namespace:** Nodify
@@ -1747,7 +2149,7 @@ public const GroupingMovementMode Self = 1;
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [DispatcherObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Threading.DispatcherObject) → [DependencyObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyObject) → [Visual](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Visual) → [UIElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement) → [FrameworkElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement) → [Control](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Control) → [ContentControl](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ContentControl) → [HeaderedContentControl](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.HeaderedContentControl) → [GroupingNode](#groupingnode-class)
 
-**References:** [GroupingMovementMode](#groupingmovementmode-enum), [NodifyEditor](#nodifyeditor-class), [ItemContainer](#itemcontainer-class), [ResizeEventHandler](#resizeeventhandler-delegate)
+**References:** [ResizeEventHandler](#resizeeventhandler-delegate), [GroupingMovementMode](#groupingmovementmode-enum), [NodifyEditor](#nodifyeditor-class), [ItemContainer](#itemcontainer-class)
 
 Defines a panel with a header that groups [ItemContainer](#itemcontainer-class)s inside it and can be resized.
 
@@ -2135,7 +2537,7 @@ public virtual void Arrange(Rect rect);
 
 **Implements:** [INodifyCanvasItem](#inodifycanvasitem-interface)
 
-**References:** [Connector](#connector-class), [NodifyEditor](#nodifyeditor-class), [GroupingNode](#groupingnode-class), [PreviewLocationChanged](#previewlocationchanged-delegate), [PendingConnection](#pendingconnection-class), [EditorCommands](#editorcommands-class)
+**References:** [Connector](#connector-class), [NodifyEditor](#nodifyeditor-class), [GroupingNode](#groupingnode-class), [PreviewLocationChanged](#previewlocationchanged-delegate), [PendingConnection](#pendingconnection-class), [EditorCommands](#editorcommands-class), [EditorSelectingState](#editorselectingstate-class)
 
 The container for all the items generated by the [ItemsControl.ItemsSource](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ItemsControl.itemssource) of the [NodifyEditor](#nodifyeditor-class).
 
@@ -3323,7 +3725,7 @@ protected override Size MeasureOverride(Size constraint);
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [DispatcherObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Threading.DispatcherObject) → [DependencyObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyObject) → [Visual](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Media.Visual) → [UIElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.UIElement) → [FrameworkElement](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.FrameworkElement) → [Control](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Control) → [ItemsControl](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.ItemsControl) → [Selector](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Primitives.Selector) → [MultiSelector](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Controls.Primitives.MultiSelector) → [NodifyEditor](#nodifyeditor-class)
 
-**References:** [Connector](#connector-class), [SelectionHelper](#selectionhelper-class), [ItemContainer](#itemcontainer-class), [PendingConnection](#pendingconnection-class), [GroupingNode](#groupingnode-class), [DecoratorContainer](#decoratorcontainer-class), [EditorCommands](#editorcommands-class), [Connection](#connection-class), [BaseConnection](#baseconnection-class)
+**References:** [EditorState](#editorstate-class), [EditorDefaultState](#editordefaultstate-class), [EditorSelectingState](#editorselectingstate-class), [EditorPanningState](#editorpanningstate-class), [SelectionHelper](#selectionhelper-class), [Connector](#connector-class), [ItemContainer](#itemcontainer-class), [PendingConnection](#pendingconnection-class), [GroupingNode](#groupingnode-class), [DecoratorContainer](#decoratorcontainer-class), [EditorCommands](#editorcommands-class), [Connection](#connection-class), [BaseConnection](#baseconnection-class)
 
 Groups [ItemContainer](#itemcontainer-class)s and [Connection](#connection-class)s in an area that you can drag, zoom and select.
 
@@ -3435,6 +3837,16 @@ protected Point CurrentMousePosition;
 **Field Value**
 
 [Point](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Point)
+
+#### CurrentState
+
+```csharp
+protected EditorState CurrentState;
+```
+
+**Field Value**
+
+[EditorState](#editorstate-class)
 
 #### DecoratorContainerStyleProperty
 
@@ -3558,7 +3970,7 @@ public static DependencyProperty GridCellSizeProperty;
 
 #### InitialMousePosition
 
-Gets where the mouse cursor was in graph space coordinates when a mouse button event occurred.
+Gets where the mouse cursor was relative to the [NodifyEditor](#nodifyeditor-class) when a mouse button event occurred.
 Check [NodifyEditor.MouseLocation](#nodifyeditor-class#mouselocation) for a transformed position.
 
 ```csharp
@@ -4232,8 +4644,6 @@ public double MinViewportZoom { get; set; }
 
 #### MouseLocation
 
-Gets the current mouse location in graph space coordinates.
-
 ```csharp
 public Point MouseLocation { get; protected set; }
 ```
@@ -4328,18 +4738,6 @@ public IList SelectedItems { get; set; }
 **Property Value**
 
 [IList](https://docs.microsoft.com/en-us/dotnet/api/System.Collections.IList)
-
-#### Selection
-
-Helps with selecting [ItemContainer](#itemcontainer-class)s and updating the [NodifyEditor.SelectedArea](#nodifyeditor-class#selectedarea) and [NodifyEditor.IsSelecting](#nodifyeditor-class#isselecting) properties.
-
-```csharp
-protected SelectionHelper Selection { get; set; }
-```
-
-**Property Value**
-
-[SelectionHelper](#selectionhelper-class)
 
 #### SelectionRectangleStyle
 
@@ -4441,6 +4839,16 @@ protected override DependencyObject GetContainerForItemOverride();
 
 [DependencyObject](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.DependencyObject)
 
+#### GetDefaultState()
+
+```csharp
+protected virtual EditorState GetDefaultState();
+```
+
+**Returns**
+
+[EditorState](#editorstate-class)
+
 #### InvertSelection(Rect, Boolean)
 
 Inverts the [ItemContainer](#itemcontainer-class)s selection in the specified area.
@@ -4497,10 +4905,10 @@ protected override void OnLostMouseCapture(MouseEventArgs e);
 
 `e` [MouseEventArgs](https://docs.microsoft.com/en-us/dotnet/api/System.Windows.Input.MouseEventArgs)
 
-#### OnMouseLeftButtonDown(MouseButtonEventArgs)
+#### OnMouseDown(MouseButtonEventArgs)
 
 ```csharp
-protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e);
+protected override void OnMouseDown(MouseButtonEventArgs e);
 ```
 
 **Parameters**
@@ -5379,7 +5787,7 @@ public delegate void ResizeEventHandler(object sender, ResizeEventArgs e);
 
 **Inheritance:** [Object](https://docs.microsoft.com/en-us/dotnet/api/System.Object) → [SelectionHelper](#selectionhelper-class)
 
-**References:** [NodifyEditor](#nodifyeditor-class)
+**References:** [EditorSelectingState](#editorselectingstate-class), [NodifyEditor](#nodifyeditor-class)
 
 ```csharp
 public sealed class SelectionHelper
