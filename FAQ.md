@@ -7,6 +7,12 @@ A2: The `Anchor` of the connectors updates only if the `IsConnected` property is
 
 ***
 
+#### Q: Can I change the mouse/key bindings?
+
+A: Yes! You can configure the [editor gestures](https://github.com/miroiu/nodify/blob/master/Nodify/EditorGestures.cs) to your liking.
+
+***
+
 #### Q: Would there be an Avalonia port?
 
 A: No.
@@ -16,9 +22,3 @@ A: No.
 #### Q: Is there a non-MVVM approach to adding nodes and connections?
 
 A: No.
-
-***
-
-#### Q: Can I change the mouse/key bindings?
-
-A: Yes! You can configure the [editor gestures](https://github.com/miroiu/nodify/blob/master/Nodify/EditorGestures.cs) to your liking.
