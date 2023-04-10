@@ -29,6 +29,8 @@ A: No.
 
 A: https://github.com/miroiu/nodify/issues/57
 
+***
+
 #### Q: How can I change the size of a node?
 
 A: https://github.com/miroiu/nodify/issues/55
