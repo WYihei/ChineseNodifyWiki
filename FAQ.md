@@ -35,6 +35,8 @@ A: https://github.com/miroiu/nodify/issues/57
 
 A: https://github.com/miroiu/nodify/issues/55
 
+***
+
 #### Q: How can I limit the X and Y panning?
 
 A: https://github.com/miroiu/nodify/issues/53
