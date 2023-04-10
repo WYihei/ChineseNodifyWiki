@@ -22,3 +22,13 @@ A: No.
 #### Q: Is there a non-MVVM approach to adding nodes and connections?
 
 A: No.
+
+***
+
+#### Q: How can I set the selected nodes to be always on top?
+
+A: https://github.com/miroiu/nodify/issues/57
+
+#### Q: How can I change the size of a node?
+
+A: https://github.com/miroiu/nodify/issues/55
