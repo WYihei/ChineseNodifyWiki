@@ -40,3 +40,9 @@ A: https://github.com/miroiu/nodify/issues/55
 #### Q: How can I limit the X and Y panning?
 
 A: https://github.com/miroiu/nodify/issues/53
+
+***
+
+#### Q: The camera is lagging. How can I fix it?
+
+A: https://github.com/miroiu/nodify/issues/60
