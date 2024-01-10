@@ -43,6 +43,12 @@ A: https://github.com/miroiu/nodify/issues/53
 
 ***
 
-#### Q: The camera is lagging. How can I fix it?
+#### Q: The viewport is lagging. How can I fix it?
 
 A: https://github.com/miroiu/nodify/issues/60
+
+***
+
+#### Q: How can I drag nodes from a toolbox into the editor?
+
+A: https://github.com/miroiu/nodify/issues/81
