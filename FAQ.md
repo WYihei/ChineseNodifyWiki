@@ -15,7 +15,7 @@ A: Yes! You can configure the [editor gestures](https://github.com/miroiu/nodify
 
 #### Q: Would there be an Avalonia port?
 
-A: No.
+A: There is a fantastic Avalonia port available! You can check it out [here](https://github.com/BAndysc/nodify-avalonia). Huge thanks to [BAndysc](https://github.com/BAndysc) who made this possible.
 
 ***
 
